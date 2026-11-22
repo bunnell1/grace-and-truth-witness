@@ -76,6 +76,9 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .note { background: var(--gold-soft); border-left: 3px solid var(--gold); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; }
 #auth-modal { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 2500; display: none; align-items: center; justify-content: center; }
 #auth-modal .card { max-width: 380px; width: 90%; }
+footer { background: var(--surface); border-top: 1px solid var(--border); padding: 1.5rem 1.25rem; margin-top: 2rem; font-size: 0.85rem; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); margin: 0 0.4rem; }
+footer .next { margin-bottom: 0.6rem; }
 @media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -203,6 +206,38 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
       <p style="font-size:0.9rem;color:var(--muted);margin-top:1.5rem;">Scripture quotations marked “ESV” are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</p>
     </div>
   </section>
+
+  <section id="privacy" class="hidden">
+    <h2>Privacy Policy</h2>
+    <div class="card">
+      <p>Last updated: November 22, 2026</p>
+      <h3>What we collect</h3>
+      <p>If you create an account, we store your email address and a hashed password through Supabase Auth. Conversation notes you type stay on your device and are not uploaded. AI search queries are sent to the Edge Function and then to the xAI API only for the duration of that request; they are not stored by us.</p>
+      <h3>What we do not do</h3>
+      <p>We do not sell your information. We do not use advertising trackers. We do not require personal data to use the core content of the site.</p>
+      <h3>Scripture text</h3>
+      <p>ESV text is fetched on demand from the ESV.org API using a site-level token. No personal data is sent with those requests.</p>
+      <h3>Contact</h3>
+      <p>Questions about privacy may be directed through the GitHub repository issues for this project.</p>
+    </div>
+  </section>
+
+  <section id="terms" class="hidden">
+    <h2>Terms of Use</h2>
+    <div class="card">
+      <p>Last updated: November 22, 2026</p>
+      <h3>Purpose</h3>
+      <p>Grace & Truth Witness is a free preparation aid for believers. It is not professional counseling, legal advice, or a guarantee of any outcome in conversations.</p>
+      <h3>Use of content</h3>
+      <p>You may use the material for personal preparation and non-commercial sharing within your local church. Sample responses are directions, not scripts. Always test everything against Scripture.</p>
+      <h3>Accounts</h3>
+      <p>If you create an account, you are responsible for keeping your password secure. You may delete your account by contacting us through the repository.</p>
+      <h3>Limitation</h3>
+      <p>The site is provided “as is.” We are not liable for how the material is used in any conversation or for any technical issues.</p>
+      <h3>ESV</h3>
+      <p>Scripture quotations are from the ESV® Bible, © 2001 by Crossway. Used by permission. All rights reserved.</p>
+    </div>
+  </section>
 </main>
 
 <div id="auth-modal">
@@ -219,6 +254,17 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
     <p style="margin-top:0.8rem; font-size:0.9rem;"><a href="#" onclick="showCreateAccount(); return false;">Create an account</a></p>
   </div>
 </div>
+
+<footer>
+  <div class="next">Next options: expand more situations & modules · add favorites that sync when signed in · generate square PWA icons · add logo to header</div>
+  <div>
+    <a href="#" onclick="show('privacy'); return false;">Privacy Policy</a> ·
+    <a href="#" onclick="show('terms'); return false;">Terms of Use</a> ·
+    <a href="#" onclick="show('about'); return false;">About</a>
+  </div>
+  <div style="margin-top:0.6rem;">© 2026 Grace & Truth Witness. All rights reserved.</div>
+  <div style="margin-top:0.3rem; font-size:0.78rem;">Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</div>
+</footer>
 
 <script>
 const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
