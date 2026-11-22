@@ -62,7 +62,7 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .hero { text-align: center; padding: 1.2rem 0 1.6rem; }
 .hero-logo { max-width: 420px; width: 100%; height: auto; margin: 0 auto 0.6rem; display: block; }
 .tagline { font-size: 1.12rem; color: var(--muted); margin: 0 auto 1.4rem; max-width: 34rem; }
-.home-search { max-width: 480px; margin: 1.2rem auto 0.4rem; }
+.home-search { max-width: 480px; margin: 0.6rem auto 0.8rem; }
 .btn { background: var(--accent); color: white; border: none; padding: 0.72rem 1.15rem; border-radius: 999px; cursor: pointer; font-family: inherit; font-size: 0.95rem; }
 .btn:hover { background: var(--accent-deep); }
 .btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--border); }
@@ -73,12 +73,11 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .search-box { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; margin: 0.5rem 0 1rem; background: var(--surface); color: var(--text); }
 .situation-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem; cursor: pointer; }
 .situation-item:hover { border-color: var(--gold); }
-.verse { background: var(--accent-light); border-left: 3px solid var(--gold); padding: 0.85rem 1.05rem; margin: 1rem 0; font-style: italic; cursor: pointer; }
-.verse:hover { opacity: 0.85; }
+.verse { background: var(--accent-light); border-left: 3px solid var(--gold); padding: 0.85rem 1.05rem; margin: 1rem 0; font-style: italic; }
 .verse-text { font-style: normal; margin-top: 0.5rem; font-size: 0.95rem; color: var(--text); }
 .note { background: var(--gold-soft); border-left: 3px solid var(--gold); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; }
-.toolkit-form input[type="text"], .toolkit-form textarea { width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; margin: 0.3rem 0 0.85rem; background: var(--surface); color: var(--text); }
-.toolkit-form textarea { min-height: 88px; resize: vertical; }
+.toolkit-form input[type="text"], .toolkit-form textarea, .notes-area { width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; margin: 0.3rem 0 0.85rem; background: var(--surface); color: var(--text); }
+.toolkit-form textarea, .notes-area { min-height: 88px; resize: vertical; }
 .toolkit-form label { font-weight: 650; display: block; margin-top: 0.35rem; color: var(--accent-deep); }
 .check-item { display: flex; align-items: flex-start; gap: 0.55rem; margin: 0.4rem 0; }
 .check-item input { margin-top: 0.35rem; accent-color: var(--accent); }
@@ -127,10 +126,6 @@ footer .next { margin-bottom: 0.6rem; }
     <div class="hero">
       <img src="logo.jpg" alt="Grace & Truth Witness" class="hero-logo">
       <div class="tagline">Biblical wisdom. Practical tools. Spirit-led conversations.<br>Equipping you to share Christ with grace and truth.</div>
-      <div class="home-search">
-        <input type="text" id="home-search" class="search-box" placeholder="What did they say or what's the situation?" onkeydown="if(event.key==='Enter') goToSearch()">
-        <button class="btn" onclick="goToSearch()">Find</button>
-      </div>
       <div class="btn-row" style="margin-top:0.8rem;">
         <button class="btn" onclick="show('situations')">Browse Situations</button>
         <button class="btn" onclick="show('scripture')">Look up a Verse</button>
@@ -152,7 +147,11 @@ footer .next { margin-bottom: 0.6rem; }
     </div>
     <div class="card">
       <h3>How to use this</h3>
-      <p>Start by searching a situation or something a person said. Review the biblical principles and sample directions. Click any Scripture reference to see the ESV text. Pray. Then speak with love and clarity. Everything here is meant to be tested against Scripture and used alongside the local church and prayer.</p>
+      <div class="home-search">
+        <input type="text" id="home-search" class="search-box" placeholder="What did they say or what's the situation?" onkeydown="if(event.key==='Enter') goToSearch()">
+        <button class="btn" onclick="goToSearch()">Find</button>
+      </div>
+      <p>Start by searching a situation or something a person said. Review the biblical principles and sample directions. Key Scriptures appear with the ESV text. Pray. Then speak with love and clarity. Everything here is meant to be tested against Scripture and used alongside the local church and prayer.</p>
       <p><small>AI-assisted search is available on the Situations page.</small></p>
     </div>
   </section>
@@ -182,8 +181,8 @@ footer .next { margin-bottom: 0.6rem; }
   <section id="scripture" class="hidden">
     <h2>Scripture Lookup</h2>
     <div class="card">
-      <input type="text" id="verse-search" class="search-box" placeholder="e.g. John 3:16 or Romans 3:23-24" onkeydown="if(event.key==='Enter') lookupVerse()">
-      <button class="btn" onclick="lookupVerse()">Look up ESV</button>
+      <input type="text" id="verse-search" class="search-box" placeholder="Reference (John 3:16) or phrase (the Lord is my shepherd)" onkeydown="if(event.key==='Enter') lookupVerse()">
+      <button class="btn" onclick="lookupVerse()">Look up / AI Find</button>
       <div id="verse-result" style="margin-top:1rem;"></div>
       <p class="note" style="margin-top:1rem;">Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</p>
     </div>
@@ -246,6 +245,9 @@ footer .next { margin-bottom: 0.6rem; }
   <div class="card">
     <h2 id="auth-title">Sign in</h2>
     <p class="note" id="auth-note">Sign in to keep favorites and use AI search. Notes stay on this device.</p>
+    <div id="auth-name-fields" class="hidden">
+      <input id="auth-name" type="text" class="search-box" placeholder="Name">
+    </div>
     <input id="auth-email" type="email" class="search-box" placeholder="Email">
     <input id="auth-password" type="password" class="search-box" placeholder="Password">
     <p id="auth-msg" class="note"></p>
@@ -253,7 +255,10 @@ footer .next { margin-bottom: 0.6rem; }
       <button class="btn" id="auth-primary" type="button" onclick="signIn()">Sign in</button>
       <button class="btn" type="button" onclick="closeAuth()" style="background:var(--muted);">Cancel</button>
     </div>
-    <p style="margin-top:0.8rem; font-size:0.9rem;"><a href="#" onclick="showCreateAccount(); return false;">Create an account</a></p>
+    <p style="margin-top:0.8rem; font-size:0.9rem;">
+      <a href="#" onclick="showCreateAccount(); return false;">Create an account</a> ·
+      <a href="#" onclick="forgotPassword(); return false;">Forgot password?</a>
+    </p>
   </div>
 </div>
 
@@ -279,6 +284,7 @@ const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
 const verseCache = {};
 let currentUser = null;
 let currentToolkitId = null;
+let currentNotesTarget = null;
 
 const situations = [
   {
@@ -384,37 +390,55 @@ const modules = [
     id: "listening",
     title: "Listening Well Before You Speak",
     summary: "Most conversations go better when we understand what the person is actually saying before we respond.",
-    content: "James 1:19: Be quick to hear, slow to speak. Ask clarifying questions. Reflect back what you heard. This honors the person and often opens the door for a clearer gospel conversation."
+    principles: "James 1:19 calls us to be quick to hear and slow to speak. Listening honors the person and often reveals the real question underneath the objection.",
+    scriptures: ["James 1:19", "Proverbs 18:13", "Proverbs 18:15"],
+    content: "Ask clarifying questions. Reflect back what you heard. Avoid jumping to a response until you understand. This often opens the door for a clearer gospel conversation.",
+    further: ["Questioning Evangelism by Randy Newman — https://www.amazon.com/dp/0825447801"]
   },
   {
     id: "gospel-clarity",
     title: "Explaining the Gospel Simply",
     summary: "A clear gospel is better than a long one. Sin, judgment, Christ's finished work, and the call to repent and believe.",
-    content: "Practice saying the gospel in a few sentences. Use Scripture. Avoid Christian jargon when possible. Invite questions."
+    principles: "The gospel is the power of God for salvation. Clarity helps the hearer understand what is at stake.",
+    scriptures: ["Romans 1:16", "1 Corinthians 15:3-4", "John 3:16", "Mark 1:15"],
+    content: "Practice saying the gospel in a few sentences. Use Scripture. Avoid Christian jargon when possible. Invite questions. Leave room for the Spirit to work.",
+    further: ["The Gospel for Real Life by Jerry Bridges"]
   },
   {
     id: "rejection",
     title: "Handling Rejection",
     summary: "Not everyone will receive the message. Our job is faithful sowing.",
-    content: "Jesus was rejected. The apostles were rejected. Rejection does not mean you failed. Pray for the person and keep loving them."
+    principles: "Jesus was rejected. The apostles were rejected. Rejection does not mean you failed. Results belong to God.",
+    scriptures: ["John 15:18-20", "Matthew 10:14", "1 Corinthians 3:6-7"],
+    content: "Pray for the person and keep loving them. Do not take rejection as a personal failure. Continue to sow faithfully.",
+    further: []
   },
   {
     id: "sovereignty",
     title: "Sovereignty and Human Responsibility",
     summary: "God is sovereign in salvation, and we are still commanded to proclaim the gospel to all.",
-    content: "We do not know who the elect are. We freely offer Christ to everyone. The results belong to God."
+    principles: "We do not know who the elect are. We freely offer Christ to everyone. The results belong to God.",
+    scriptures: ["John 6:37", "Acts 13:48", "Romans 10:14-15", "Ezekiel 33:11"],
+    content: "Hold both truths: God is sovereign, and we are responsible to proclaim. Offer the gospel freely and leave the increase with the Lord.",
+    further: []
   },
   {
     id: "boldness",
     title: "Boldness in the Spirit",
     summary: "Courage to speak comes from the Holy Spirit, not from personality or technique.",
-    content: "Acts 4:29-31. Pray for boldness. Depend on the Spirit. Speak the truth in love even when it costs something."
+    principles: "Boldness is a gift of the Spirit. Pray for it. Depend on the Spirit rather than your own ability.",
+    scriptures: ["Acts 4:29-31", "2 Timothy 1:7", "Ephesians 6:19-20"],
+    content: "Pray for boldness before conversations. Speak the truth in love even when it costs something. The Spirit supplies what is needed.",
+    further: []
   },
   {
     id: "family",
     title: "Sharing with Family",
     summary: "Family conversations can be the hardest. Love, patience, and consistent living matter.",
-    content: "1 Peter 3:1-2. Live the gospel before you speak it. Pray specifically. Look for natural openings rather than forcing every conversation."
+    principles: "Live the gospel before you speak it. Pray specifically. Look for natural openings rather than forcing every conversation.",
+    scriptures: ["1 Peter 3:1-2", "Colossians 3:12-14", "Ephesians 6:4"],
+    content: "Be patient. Consistency in life often speaks louder than repeated arguments. Ask the Lord for wisdom and timing.",
+    further: ["Questioning Evangelism by Randy Newman — https://www.amazon.com/dp/0825447801"]
   }
 ];
 
@@ -509,12 +533,44 @@ async function fetchESV(ref) {
 }
 
 async function lookupVerse() {
-  const ref = document.getElementById('verse-search').value.trim();
-  if (!ref) return;
+  const q = document.getElementById('verse-search').value.trim();
+  if (!q) return;
   const result = document.getElementById('verse-result');
-  result.innerHTML = '<p>Loading…</p>';
-  const text = await fetchESV(ref);
-  result.innerHTML = `<div class="verse"><strong>${ref}</strong><div class="verse-text">${text}</div></div>`;
+  result.innerHTML = '<p>Looking…</p>';
+
+  // If it looks like a reference, fetch directly
+  if (/\d/.test(q) && /[a-zA-Z]/.test(q)) {
+    const text = await fetchESV(q);
+    result.innerHTML = `<div class="verse"><strong>${q}</strong><div class="verse-text">${text}</div></div>`;
+    return;
+  }
+
+  // Otherwise treat as a phrase and use AI find
+  result.innerHTML = '<p>Searching for the closest match…</p>';
+  try {
+    const catalog = [
+      ...situations.flatMap(s => s.scriptures.map(ref => ({ type: 'scripture', id: ref, title: ref, summary: s.title }))),
+      { type: 'scripture', id: 'Psalm 23:1', title: 'Psalm 23:1', summary: 'The Lord is my shepherd' },
+      { type: 'scripture', id: 'John 3:16', title: 'John 3:16', summary: 'For God so loved the world' },
+      { type: 'scripture', id: 'Romans 3:23', title: 'Romans 3:23', summary: 'All have sinned' }
+    ];
+    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q, catalog })
+    });
+    const data = await res.json();
+    const matches = data.matches || [];
+    if (matches.length && matches[0].id) {
+      const ref = matches[0].id;
+      const text = await fetchESV(ref);
+      result.innerHTML = `<div class="verse"><strong>${ref}</strong> <small>(closest match for “${q}”)</small><div class="verse-text">${text}</div></div>`;
+    } else {
+      result.innerHTML = '<p class="note">No strong match found. Try a clearer phrase or a reference.</p>';
+    }
+  } catch (e) {
+    result.innerHTML = '<p class="note">AI lookup unavailable. Try a specific reference.</p>';
+  }
 }
 
 function show(section) {
@@ -559,31 +615,43 @@ async function showSituation(id) {
   const detail = document.getElementById('situation-detail');
   list.classList.add('hidden');
   detail.classList.remove('hidden');
+  const notesId = 'situation-notes-' + id;
+  const savedNotes = localStorage.getItem(notesId) || '';
   detail.innerHTML = `
     <button class="btn" onclick="renderSituations(document.getElementById('search').value)" style="margin-bottom:1rem;">← Back to list</button>
     <div class="card">
       <h2>${s.title}</h2>
       <h3>Biblical Principles</h3>
       <p>${s.principles}</p>
-      <h3>Key Scriptures <small style="font-weight:normal;color:var(--muted);">(click to load ESV text)</small></h3>
-      <div id="scripture-container-${s.id}"></div>
+      <h3>Key Scriptures</h3>
+      <div id="scripture-container-${s.id}">Loading…</div>
       <h3>Sample Response Directions</h3>
       <ul>${s.responses.map(r => `<li>${r}</li>`).join('')}</ul>
       <h3>Suggested Next Step</h3>
       <p>${s.next}</p>
       <div class="note">These are directions, not scripts. Test everything against Scripture. Pray. Listen. Point to Christ.</div>
+
+      <h3 style="margin-top:1.5rem;">Personal Notes</h3>
+      <textarea class="notes-area" id="${notesId}" placeholder="Private notes for this situation…">${savedNotes}</textarea>
+      <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
+      <div class="notes-tools">
+        <button class="icon-btn" onclick="saveNotes('${notesId}')" title="Save — keep these notes in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></svg></button>
+        <button class="icon-btn" type="button" onclick="exportNotes('${notesId}')" title="Download — save a named, dated file to your device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></button>
+        <button class="icon-btn" type="button" onclick="beginImport('${notesId}')" title="Upload — load a file saved from this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20V9"/><path d="m7 13 5-5 5 5"/><path d="M5 4h14"/></svg></button>
+        <button class="icon-btn danger" type="button" onclick="clearNotes('${notesId}')" title="Clear — remove the notes on this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg></button>
+      </div>
+      <button class="btn secondary" onclick="window.print()">Print / Save as PDF</button>
     </div>
   `;
+
+  // Auto-load scriptures
   const container = document.getElementById(`scripture-container-${s.id}`);
+  container.innerHTML = '';
   for (const ref of s.scriptures) {
+    const text = await fetchESV(ref);
     const el = document.createElement('div');
     el.className = 'verse';
-    el.innerHTML = `<strong>${ref}</strong> <span style="font-size:0.85rem;color:var(--gold);">→ click to load</span>`;
-    el.onclick = async () => {
-      el.innerHTML = `<strong>${ref}</strong><div class="verse-text">Loading…</div>`;
-      const text = await fetchESV(ref);
-      el.innerHTML = `<strong>${ref}</strong><div class="verse-text">${text}</div>`;
-    };
+    el.innerHTML = `<strong>${ref}</strong><div class="verse-text">${text}</div>`;
     container.appendChild(el);
   }
 }
@@ -628,18 +696,46 @@ function renderModules() {
   `).join('');
 }
 
-function showModule(id) {
+async function showModule(id) {
   const m = modules.find(x => x.id === id);
   document.getElementById('module-list').classList.add('hidden');
   const detail = document.getElementById('module-detail');
   detail.classList.remove('hidden');
+  const notesId = 'module-notes-' + id;
+  const savedNotes = localStorage.getItem(notesId) || '';
   detail.innerHTML = `
     <button class="btn" onclick="document.getElementById('module-list').classList.remove('hidden'); document.getElementById('module-detail').classList.add('hidden');" style="margin-bottom:1rem;">← Back</button>
     <div class="card">
       <h2>${m.title}</h2>
+      <h3>Principles</h3>
+      <p>${m.principles}</p>
+      <h3>Key Scriptures</h3>
+      <div id="mod-scriptures-${id}">Loading…</div>
+      <h3>Content</h3>
       <p>${m.content}</p>
+      ${m.further && m.further.length ? `<h3>Further Reading</h3><ul>${m.further.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
+
+      <h3 style="margin-top:1.5rem;">Personal Notes</h3>
+      <textarea class="notes-area" id="${notesId}" placeholder="Private notes for this module…">${savedNotes}</textarea>
+      <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only.</p>
+      <div class="notes-tools">
+        <button class="icon-btn" onclick="saveNotes('${notesId}')" title="Save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></svg></button>
+        <button class="icon-btn" type="button" onclick="exportNotes('${notesId}')" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></button>
+        <button class="icon-btn" type="button" onclick="beginImport('${notesId}')" title="Upload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20V9"/><path d="m7 13 5-5 5 5"/><path d="M5 4h14"/></svg></button>
+        <button class="icon-btn danger" type="button" onclick="clearNotes('${notesId}')" title="Clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg></button>
+      </div>
     </div>
   `;
+
+  const container = document.getElementById(`mod-scriptures-${id}`);
+  container.innerHTML = '';
+  for (const ref of (m.scriptures || [])) {
+    const text = await fetchESV(ref);
+    const el = document.createElement('div');
+    el.className = 'verse';
+    el.innerHTML = `<strong>${ref}</strong><div class="verse-text">${text}</div>`;
+    container.appendChild(el);
+  }
 }
 
 function renderToolkitList() {
@@ -666,7 +762,7 @@ function showToolkit(id) {
     <div class="card">
       ${item.content}
       <h3 style="margin-top:1.5rem;">Personal Notes</h3>
-      <textarea class="search-box" id="toolkit-notes-${id}" rows="4" placeholder="Private notes…">${savedNotes}</textarea>
+      <textarea class="notes-area" id="toolkit-notes-${id}" placeholder="Private notes…">${savedNotes}</textarea>
       <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
       <div class="notes-tools">
         <button class="icon-btn" onclick="saveToolkit('${id}')" title="Save — keep these notes in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></svg></button>
@@ -709,6 +805,12 @@ function restoreToolkit(id) {
   });
 }
 
+function saveNotes(id) {
+  const el = document.getElementById(id);
+  if (el) localStorage.setItem(id, el.value);
+  alert('Notes saved in this browser.');
+}
+
 function exportNotes(notesId) {
   const el = document.getElementById(notesId);
   if (!el) return;
@@ -722,21 +824,27 @@ function exportNotes(notesId) {
 }
 
 function beginImport(notesId) {
-  document.getElementById('file-import').dataset.target = notesId;
+  currentNotesTarget = notesId;
   document.getElementById('file-import').click();
 }
 
 function handleImport(e) {
   const file = e.target.files[0];
-  if (!file) return;
-  const target = e.target.dataset.target;
+  if (!file || !currentNotesTarget) return;
   const reader = new FileReader();
   reader.onload = () => {
-    const el = document.getElementById(target);
+    const el = document.getElementById(currentNotesTarget);
     if (el) el.value = reader.result;
   };
   reader.readAsText(file);
   e.target.value = '';
+}
+
+function clearNotes(id) {
+  if (!confirm('Clear these notes?')) return;
+  localStorage.removeItem(id);
+  const el = document.getElementById(id);
+  if (el) el.value = '';
 }
 
 function clearToolkit(id) {
@@ -748,6 +856,10 @@ function clearToolkit(id) {
 
 function openAuth() {
   document.getElementById('auth-modal').style.display = 'flex';
+  document.getElementById('auth-name-fields').classList.add('hidden');
+  document.getElementById('auth-title').textContent = 'Sign in';
+  document.getElementById('auth-primary').textContent = 'Sign in';
+  document.getElementById('auth-primary').onclick = signIn;
 }
 function closeAuth() {
   document.getElementById('auth-modal').style.display = 'none';
@@ -762,14 +874,22 @@ async function signIn() {
 }
 function showCreateAccount() {
   document.getElementById('auth-title').textContent = 'Create account';
+  document.getElementById('auth-name-fields').classList.remove('hidden');
   document.getElementById('auth-primary').textContent = 'Create';
   document.getElementById('auth-primary').onclick = signUp;
 }
 async function signUp() {
+  const name = document.getElementById('auth-name').value.trim();
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
-  const { error } = await sb.auth.signUp({ email, password });
+  const { error } = await sb.auth.signUp({ email, password, options: { data: { name } } });
   document.getElementById('auth-msg').textContent = error ? error.message : 'Account created. Check your email if confirmation is required.';
+}
+async function forgotPassword() {
+  const email = document.getElementById('auth-email').value.trim();
+  if (!email) { document.getElementById('auth-msg').textContent = 'Enter your email first.'; return; }
+  const { error } = await sb.auth.resetPasswordForEmail(email);
+  document.getElementById('auth-msg').textContent = error ? error.message : 'Password reset email sent. Check your inbox.';
 }
 async function refreshAuth() {
   const { data } = await sb.auth.getSession();
