@@ -73,8 +73,10 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .search-box { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; margin: 0.5rem 0 1rem; background: var(--surface); color: var(--text); }
 .situation-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem; cursor: pointer; }
 .situation-item:hover { border-color: var(--gold); }
-.verse { background: var(--accent-light); border-left: 3px solid var(--gold); padding: 0.85rem 1.05rem; margin: 1rem 0; font-style: italic; }
+.verse { background: var(--accent-light); border-left: 3px solid var(--gold); padding: 0.85rem 1.05rem; margin: 1rem 0; font-style: italic; position: relative; }
 .verse-text { font-style: normal; margin-top: 0.5rem; font-size: 0.95rem; color: var(--text); }
+.verse-ref { color: var(--accent); text-decoration: underline; cursor: pointer; }
+.verse-ref:hover { color: var(--accent-deep); }
 .note { background: var(--gold-soft); border-left: 3px solid var(--gold); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; }
 .toolkit-form input[type="text"], .toolkit-form textarea, .notes-area { width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; margin: 0.3rem 0 0.85rem; background: var(--surface); color: var(--text); }
 .toolkit-form textarea, .notes-area { min-height: 88px; resize: vertical; }
@@ -86,12 +88,17 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .icon-btn:hover { border-color: var(--gold); }
 .icon-btn svg { width: 18px; height: 18px; }
 .icon-btn.danger { color: #8B3A3A; }
+.verse-popup { position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem; max-width: 320px; box-shadow: var(--shadow); z-index: 100; display: none; font-style: normal; font-size: 0.9rem; }
+.verse:hover .verse-popup { display: block; }
+#esv-modal { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 3000; display: none; align-items: center; justify-content: center; }
+#esv-modal .modal-inner { background: var(--surface); border-radius: 12px; max-width: 90%; max-height: 80vh; overflow: auto; padding: 1.2rem; position: relative; }
+#esv-close { position: absolute; top: 0.6rem; right: 0.8rem; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--muted); }
 #auth-modal { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 2500; display: none; align-items: center; justify-content: center; }
 #auth-modal .card { max-width: 380px; width: 90%; }
 footer { background: var(--surface); border-top: 1px solid var(--border); padding: 1.5rem 1.25rem; margin-top: 2rem; font-size: 0.85rem; color: var(--muted); text-align: center; }
 footer a { color: var(--accent); margin: 0 0.4rem; }
 footer .next { margin-bottom: 0.6rem; }
-@media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } .verse-popup { position: fixed; left: 1rem; right: 1rem; max-width: none; } }
 </style>
 </head>
 <body>
@@ -152,14 +159,13 @@ footer .next { margin-bottom: 0.6rem; }
         <button class="btn" onclick="goToSearch()">Find</button>
       </div>
       <p>Start by searching a situation or something a person said. Review the biblical principles and sample directions. Key Scriptures appear with the ESV text. Pray. Then speak with love and clarity. Everything here is meant to be tested against Scripture and used alongside the local church and prayer.</p>
-      <p><small>AI-assisted search is available on the Situations page.</small></p>
     </div>
   </section>
 
   <section id="situations" class="hidden">
     <h2>Situations & Things People Say</h2>
-    <input type="text" id="search" class="search-box" placeholder="Describe what they said or the situation… (AI search available)" oninput="filterSituations()">
-    <button class="btn" onclick="aiFind()" style="margin-bottom:1rem;">AI Find Best Match</button>
+    <input type="text" id="search" class="search-box" placeholder="Describe what they said or the situation…" oninput="filterSituations()">
+    <button class="btn" onclick="aiFind()" style="margin-bottom:1rem;">Find Best Match</button>
     <div id="ai-results"></div>
     <div id="situation-list"></div>
     <div id="situation-detail" class="hidden"></div>
@@ -182,7 +188,7 @@ footer .next { margin-bottom: 0.6rem; }
     <h2>Scripture Lookup</h2>
     <div class="card">
       <input type="text" id="verse-search" class="search-box" placeholder="Reference (John 3:16) or phrase (the Lord is my shepherd)" onkeydown="if(event.key==='Enter') lookupVerse()">
-      <button class="btn" onclick="lookupVerse()">Look up / AI Find</button>
+      <button class="btn" onclick="lookupVerse()">Look up</button>
       <div id="verse-result" style="margin-top:1rem;"></div>
       <p class="note" style="margin-top:1rem;">Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</p>
     </div>
@@ -213,7 +219,7 @@ footer .next { margin-bottom: 0.6rem; }
     <div class="card">
       <p>Last updated: November 22, 2026</p>
       <h3>What we collect</h3>
-      <p>If you create an account, we store only the email address and password you provide so you can sign in. Conversation notes you type stay on your device and are not uploaded. AI search queries are used only to return relevant results for that moment and are not kept.</p>
+      <p>If you create an account, we store only the email address and password you provide so you can sign in. Conversation notes you type stay on your device and are not uploaded. Search queries are used only to return relevant results for that moment and are not kept.</p>
       <h3>What we do not do</h3>
       <p>We do not sell your information. We do not use advertising trackers. We do not require personal data to use the core content of the site.</p>
       <h3>Scripture text</h3>
@@ -244,7 +250,7 @@ footer .next { margin-bottom: 0.6rem; }
 <div id="auth-modal">
   <div class="card">
     <h2 id="auth-title">Sign in</h2>
-    <p class="note" id="auth-note">Sign in to keep favorites and use AI search. Notes stay on this device.</p>
+    <p class="note" id="auth-note">Sign in to keep favorites. Notes stay on this device.</p>
     <div id="auth-name-fields" class="hidden">
       <input id="auth-name" type="text" class="search-box" placeholder="Name">
     </div>
@@ -259,6 +265,13 @@ footer .next { margin-bottom: 0.6rem; }
       <a href="#" onclick="showCreateAccount(); return false;">Create an account</a> ·
       <a href="#" onclick="forgotPassword(); return false;">Forgot password?</a>
     </p>
+  </div>
+</div>
+
+<div id="esv-modal">
+  <div class="modal-inner">
+    <button id="esv-close" onclick="closeEsvModal()">×</button>
+    <div id="esv-modal-content"></div>
   </div>
 </div>
 
@@ -297,6 +310,12 @@ const situations = [
       "I understand. Most of us think of ourselves as reasonably good. Can I ask—good compared to what? Compared to other people, or compared to God's perfect standard?",
       "The Bible says none of us meets that standard. That's why we need a Savior, not just a better version of ourselves."
     ],
+    dialogue: [
+      { speaker: "Friend", text: "I try to be a good person. I help people and don't hurt anyone." },
+      { speaker: "You", text: "I appreciate that. Can I ask—good compared to other people, or compared to a perfect standard?" },
+      { speaker: "Friend", text: "Compared to other people, I guess." },
+      { speaker: "You", text: "The Bible says none of us meets God's perfect standard. That's why we need a Savior." }
+    ],
     next: "Offer to read Romans 3 together. Pray for them."
   },
   {
@@ -308,6 +327,12 @@ const situations = [
     responses: [
       "I appreciate that you want to be open. Can I ask a honest question? If two religions contradict each other on whether Jesus is God or just a teacher, can they both be true?",
       "Jesus said He is the way, the truth, and the life. That claim is either true or it isn't. I'd love to look at what He actually said."
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "I think all religions lead to the same place." },
+      { speaker: "You", text: "I hear that. Can two religions that contradict each other both be true?" },
+      { speaker: "Friend", text: "Maybe they're just different paths." },
+      { speaker: "You", text: "Jesus said He is the way. Would you be open to looking at what He actually claimed?" }
     ],
     next: "Point to John 14:6. Invite them to examine the claims of Christ."
   },
@@ -321,6 +346,12 @@ const situations = [
       "That's a common concern. Would you be open to looking at one specific example together? I'd rather examine a real passage than stay at the level of a general claim.",
       "I believe the Bible is trustworthy. If there's a particular passage that bothers you, I'd be glad to look at it with you."
     ],
+    dialogue: [
+      { speaker: "Friend", text: "The Bible is full of contradictions." },
+      { speaker: "You", text: "That's a fair concern. Would you be open to looking at one specific example together?" },
+      { speaker: "Friend", text: "I don't have one off the top of my head." },
+      { speaker: "You", text: "If something comes up, I'd be glad to look at it carefully with you." }
+    ],
     next: "Ask for a specific example. Recommend a trusted resource on Bible reliability."
   },
   {
@@ -332,6 +363,12 @@ const situations = [
     responses: [
       "That's a hard question, and I don't want to give a quick answer. The Bible takes suffering seriously—Jesus wept. It also says God is working even in the middle of pain.",
       "Would you be open to looking at what the Bible says about why the world is broken and what God has done about it?"
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "If God is good, why is there so much suffering?" },
+      { speaker: "You", text: "That's a hard question. The Bible doesn't minimize suffering—Jesus wept." },
+      { speaker: "Friend", text: "But why doesn't He stop it?" },
+      { speaker: "You", text: "The Bible says the world is broken because of sin, and God entered the suffering in Christ. Would you be open to looking at that together?" }
     ],
     next: "Listen first. Point to the cross. Offer to read Romans 8 or John 11."
   },
@@ -345,6 +382,12 @@ const situations = [
       "I hear that a lot. Can I ask what you mean by spiritual? And what has made organized religion unappealing?",
       "Jesus said true worshipers worship in spirit and truth. That truth is found in Him and His Word, not just in private feelings."
     ],
+    dialogue: [
+      { speaker: "Friend", text: "I'm spiritual but not religious." },
+      { speaker: "You", text: "I hear that. What do you mean by spiritual?" },
+      { speaker: "Friend", text: "I just try to be a good person and feel connected." },
+      { speaker: "You", text: "Jesus talked about true worshipers who worship in spirit and truth. Would you be open to hearing what He said about that?" }
+    ],
     next: "Listen for their story. Point to Jesus as the one who defines true spirituality."
   },
   {
@@ -356,6 +399,12 @@ const situations = [
     responses: [
       "Some parts do speak to ancient cultures. But the core message about sin, grace, and Christ is as relevant today as ever.",
       "Would you be open to looking at one passage that still speaks powerfully to modern life?"
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "The Bible is outdated." },
+      { speaker: "You", text: "Some parts do address ancient cultures. But the core message about sin and grace still speaks today." },
+      { speaker: "Friend", text: "Like what?" },
+      { speaker: "You", text: "Would you be open to looking at one passage together?" }
     ],
     next: "Offer a specific, relevant passage. Avoid defending every cultural detail at once."
   },
@@ -369,6 +418,12 @@ const situations = [
       "I don't see science and faith as enemies. Many things science describes point to an ordered universe that has a Creator.",
       "The real question is whether the God who made the universe has spoken in Christ."
     ],
+    dialogue: [
+      { speaker: "Friend", text: "Science and faith can't both be true." },
+      { speaker: "You", text: "I don't see them as enemies. Many things science describes point to an ordered universe." },
+      { speaker: "Friend", text: "But the Bible isn't a science book." },
+      { speaker: "You", text: "That's true. The real question is whether the God who made the universe has spoken in Christ." }
+    ],
     next: "Stay humble. Point to the person of Christ rather than debating every scientific detail."
   },
   {
@@ -380,6 +435,12 @@ const situations = [
     responses: [
       "You're right that hypocrisy is a real problem. Jesus hated it too. The question is whether that means He isn't Lord, or whether His people still need Him.",
       "I'm sorry if you've been hurt by church people. That grieves me."
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "The church is full of hypocrites." },
+      { speaker: "You", text: "You're right that hypocrisy is a real problem. Jesus hated it too." },
+      { speaker: "Friend", text: "Then why go?" },
+      { speaker: "You", text: "Because the church is made of sinners who still need Him. I'm sorry if you've been hurt by church people." }
     ],
     next: "Acknowledge the hurt. Point to Christ, not to imperfect people."
   }
@@ -532,20 +593,39 @@ async function fetchESV(ref) {
   }
 }
 
+function truncate(text, max = 220) {
+  if (!text || text.length <= max) return text;
+  return text.slice(0, max).trim() + '…';
+}
+
+function openEsvWindow(ref) {
+  const url = `https://www.esv.org/${encodeURIComponent(ref)}/`;
+  const isMobile = window.innerWidth < 700;
+  if (isMobile) {
+    document.getElementById('esv-modal-content').innerHTML = `<iframe src="${url}" style="width:100%;height:70vh;border:none;"></iframe>`;
+    document.getElementById('esv-modal').style.display = 'flex';
+  } else {
+    window.open(url, '_blank', 'noopener');
+  }
+}
+
+function closeEsvModal() {
+  document.getElementById('esv-modal').style.display = 'none';
+  document.getElementById('esv-modal-content').innerHTML = '';
+}
+
 async function lookupVerse() {
   const q = document.getElementById('verse-search').value.trim();
   if (!q) return;
   const result = document.getElementById('verse-result');
   result.innerHTML = '<p>Looking…</p>';
 
-  // If it looks like a reference, fetch directly
   if (/\d/.test(q) && /[a-zA-Z]/.test(q)) {
     const text = await fetchESV(q);
-    result.innerHTML = `<div class="verse"><strong>${q}</strong><div class="verse-text">${text}</div></div>`;
+    result.innerHTML = renderVerse(q, text);
     return;
   }
 
-  // Otherwise treat as a phrase and use AI find
   result.innerHTML = '<p>Searching for the closest match…</p>';
   try {
     const catalog = [
@@ -564,13 +644,23 @@ async function lookupVerse() {
     if (matches.length && matches[0].id) {
       const ref = matches[0].id;
       const text = await fetchESV(ref);
-      result.innerHTML = `<div class="verse"><strong>${ref}</strong> <small>(closest match for “${q}”)</small><div class="verse-text">${text}</div></div>`;
+      result.innerHTML = renderVerse(ref, text, q);
     } else {
       result.innerHTML = '<p class="note">No strong match found. Try a clearer phrase or a reference.</p>';
     }
   } catch (e) {
-    result.innerHTML = '<p class="note">AI lookup unavailable. Try a specific reference.</p>';
+    result.innerHTML = '<p class="note">Lookup unavailable. Try a specific reference.</p>';
   }
+}
+
+function renderVerse(ref, text, phrase) {
+  const short = truncate(text);
+  const extra = phrase ? ` <small>(closest match for “${phrase}”)</small>` : '';
+  return `<div class="verse">
+    <span class="verse-ref" onclick="openEsvWindow('${ref}')" title="${text.replace(/"/g, '"')}">${ref}</span>${extra}
+    <div class="verse-text">${short}</div>
+    <div class="verse-popup">${text}</div>
+  </div>`;
 }
 
 function show(section) {
@@ -587,7 +677,7 @@ function goToSearch() {
   show('situations');
   if (q) {
     document.getElementById('search').value = q;
-    filterSituations();
+    aiFind();
   }
 }
 
@@ -606,7 +696,7 @@ function renderSituations(filter = '') {
       <strong>${s.title}</strong>
       <div style="color:var(--muted);font-size:0.9rem;margin-top:0.2rem;">${s.tags.join(' · ')}</div>
     </div>
-  `).join('') || '<p>No matches. Try a different word or use AI Find.</p>';
+  `).join('') || '<p>No matches. Try a different word or use Find Best Match.</p>';
 }
 
 async function showSituation(id) {
@@ -627,6 +717,7 @@ async function showSituation(id) {
       <div id="scripture-container-${s.id}">Loading…</div>
       <h3>Sample Response Directions</h3>
       <ul>${s.responses.map(r => `<li>${r}</li>`).join('')}</ul>
+      ${s.dialogue ? `<h3>Sample Dialogue</h3><div class="note">${s.dialogue.map(d => `<p><strong>${d.speaker}:</strong> ${d.text}</p>`).join('')}</div>` : ''}
       <h3>Suggested Next Step</h3>
       <p>${s.next}</p>
       <div class="note">These are directions, not scripts. Test everything against Scripture. Pray. Listen. Point to Christ.</div>
@@ -644,15 +735,11 @@ async function showSituation(id) {
     </div>
   `;
 
-  // Auto-load scriptures
   const container = document.getElementById(`scripture-container-${s.id}`);
   container.innerHTML = '';
   for (const ref of s.scriptures) {
     const text = await fetchESV(ref);
-    const el = document.createElement('div');
-    el.className = 'verse';
-    el.innerHTML = `<strong>${ref}</strong><div class="verse-text">${text}</div>`;
-    container.appendChild(el);
+    container.innerHTML += renderVerse(ref, text);
   }
 }
 
@@ -665,7 +752,7 @@ async function aiFind() {
   const q = document.getElementById('search').value.trim();
   const out = document.getElementById('ai-results');
   if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
-  out.innerHTML = '<p class="note">Looking with AI…</p>';
+  out.innerHTML = '<p class="note">Looking…</p>';
   const catalog = [
     ...situations.map(s => ({ type: 'situation', id: s.id, title: s.title, summary: s.principles })),
     ...modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary }))
@@ -680,9 +767,9 @@ async function aiFind() {
     const matches = data.matches || [];
     out.innerHTML = matches.length
       ? matches.map(m => `<div class="situation-item" onclick="showSituation('${m.id}')"><strong>${m.title}</strong><div style="color:var(--muted);font-size:0.9rem;">${m.why || ''}</div></div>`).join('')
-      : '<p class="note">No strong AI match. Try browsing or different words.</p>';
+      : '<p class="note">No strong match. Try browsing or different words.</p>';
   } catch (e) {
-    out.innerHTML = '<p class="note">AI search unavailable right now. Use the list below.</p>';
+    out.innerHTML = '<p class="note">Search unavailable right now. Use the list below.</p>';
   }
 }
 
@@ -731,10 +818,7 @@ async function showModule(id) {
   container.innerHTML = '';
   for (const ref of (m.scriptures || [])) {
     const text = await fetchESV(ref);
-    const el = document.createElement('div');
-    el.className = 'verse';
-    el.innerHTML = `<strong>${ref}</strong><div class="verse-text">${text}</div>`;
-    container.appendChild(el);
+    container.innerHTML += renderVerse(ref, text);
   }
 }
 
