@@ -50,12 +50,13 @@ h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; color: var(--
 a { color: var(--accent); }
 .hidden { display: none !important; }
 header { position: sticky; top: 0; z-index: 20; background: rgba(247,243,236,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-.header-inner { max-width: 1120px; margin: 0 auto; padding: 0.7rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+.header-inner { max-width: 1120px; margin: 0 auto; padding: 0.7rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: inherit; }
 .brand-name { font-family: var(--font-serif); font-size: 1.15rem; color: var(--accent); }
 .brand-sub { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
 nav button { background: none; border: none; font-family: inherit; font-size: 0.9rem; color: var(--muted); padding: 0.45rem 0.6rem; cursor: pointer; border-radius: 8px; }
 nav button:hover, nav button.active { color: var(--accent); }
+#auth-btn { background: transparent; border: 1px solid var(--border); color: var(--accent); border-radius: 999px; padding: 0.4rem 0.9rem; font-size: 0.85rem; cursor: pointer; }
 main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .hero { text-align: center; padding: 1.2rem 0 1.6rem; }
 .hero h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: 0.2rem 0 0.55rem; }
@@ -73,6 +74,8 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .verse:hover { opacity: 0.85; }
 .verse-text { font-style: normal; margin-top: 0.5rem; font-size: 0.95rem; color: var(--text); }
 .note { background: var(--gold-soft); border-left: 3px solid var(--gold); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; }
+#auth-modal { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 2500; display: none; align-items: center; justify-content: center; }
+#auth-modal .card { max-width: 380px; width: 90%; }
 @media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -92,6 +95,7 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
       <button onclick="show('toolkit')">Toolkit</button>
       <button onclick="show('scripture')">Scripture</button>
       <button onclick="show('about')">About</button>
+      <button id="auth-btn" type="button" onclick="openAuth()">Sign in</button>
     </nav>
   </div>
 </header>
@@ -123,12 +127,15 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
     <div class="card">
       <h3>How to use this</h3>
       <p>Start by searching a situation or something a person said. Review the biblical principles and sample directions. Click any Scripture reference to see the ESV text. Pray. Then speak with love and clarity. Everything here is meant to be tested against Scripture and used alongside the local church and prayer.</p>
+      <p><small>AI-assisted search is available (uses the find function).</small></p>
     </div>
   </section>
 
   <section id="situations" class="hidden">
     <h2>Situations & Things People Say</h2>
-    <input type="text" id="search" class="search-box" placeholder="Describe what they said or the situation…" oninput="filterSituations()">
+    <input type="text" id="search" class="search-box" placeholder="Describe what they said or the situation… (AI search available)" oninput="filterSituations()">
+    <button class="btn" onclick="aiFind()" style="margin-bottom:1rem;">AI Find Best Match</button>
+    <div id="ai-results"></div>
     <div id="situation-list"></div>
     <div id="situation-detail" class="hidden"></div>
   </section>
@@ -155,6 +162,15 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
       <h3>Conversation Notes</h3>
       <textarea id="notes" class="search-box" rows="6" placeholder="What did they say? What did you hear? Any follow-up?"></textarea>
       <p><small>Notes stay on this device. They are not uploaded.</small></p>
+    </div>
+    <div class="card">
+      <h3>Follow-up Checklist</h3>
+      <ul>
+        <li>Pray for them by name.</li>
+        <li>Offer to read a passage together next time.</li>
+        <li>Invite them to church or a Bible study.</li>
+        <li>Leave the results with the Lord.</li>
+      </ul>
     </div>
   </section>
 
@@ -189,6 +205,21 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
   </section>
 </main>
 
+<div id="auth-modal">
+  <div class="card">
+    <h2 id="auth-title">Sign in</h2>
+    <p class="note" id="auth-note">Sign in to keep favorites and use AI search. Notes stay on this device.</p>
+    <input id="auth-email" type="email" class="search-box" placeholder="Email">
+    <input id="auth-password" type="password" class="search-box" placeholder="Password">
+    <p id="auth-msg" class="note"></p>
+    <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+      <button class="btn" id="auth-primary" type="button" onclick="signIn()">Sign in</button>
+      <button class="btn" type="button" onclick="closeAuth()" style="background:var(--muted);">Cancel</button>
+    </div>
+    <p style="margin-top:0.8rem; font-size:0.9rem;"><a href="#" onclick="showCreateAccount(); return false;">Create an account</a></p>
+  </div>
+</div>
+
 <script>
 const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
@@ -196,6 +227,7 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
 const verseCache = {};
+let currentUser = null;
 
 const situations = [
   {
@@ -245,6 +277,54 @@ const situations = [
       "Would you be open to looking at what the Bible says about why the world is broken and what God has done about it?"
     ],
     next: "Listen first. Point to the cross. Offer to read Romans 8 or John 11."
+  },
+  {
+    id: "spiritual-not-religious",
+    title: "I'm spiritual but not religious",
+    tags: ["spiritual", "common", "church"],
+    principles: "True spirituality is defined by God, not by personal preference. Jesus calls people into a relationship that includes His church and His Word.",
+    scriptures: ["John 4:23-24", "Hebrews 10:24-25", "Matthew 16:18"],
+    responses: [
+      "I hear that a lot. Can I ask what you mean by spiritual? And what has made organized religion unappealing?",
+      "Jesus said true worshipers worship in spirit and truth. That truth is found in Him and His Word, not just in private feelings."
+    ],
+    next: "Listen for their story. Point to Jesus as the one who defines true spirituality."
+  },
+  {
+    id: "bible-outdated",
+    title: "The Bible is outdated",
+    tags: ["scripture", "culture", "common"],
+    principles: "God's Word is timeless because human nature and God's character do not change. Cultural forms change; the gospel does not.",
+    scriptures: ["Isaiah 40:8", "Matthew 24:35", "2 Timothy 3:16-17"],
+    responses: [
+      "Some parts do speak to ancient cultures. But the core message about sin, grace, and Christ is as relevant today as ever.",
+      "Would you be open to looking at one passage that still speaks powerfully to modern life?"
+    ],
+    next: "Offer a specific, relevant passage. Avoid defending every cultural detail at once."
+  },
+  {
+    id: "science-vs-faith",
+    title: "Science and faith can't both be true",
+    tags: ["apologetics", "science", "common"],
+    principles: "Many of the greatest scientists in history were believers. The Bible is not a science textbook, but it is true in all it affirms.",
+    scriptures: ["Psalm 19:1", "Colossians 1:16-17", "Romans 1:20"],
+    responses: [
+      "I don't see science and faith as enemies. Many things science describes point to an ordered universe that has a Creator.",
+      "The real question is whether the God who made the universe has spoken in Christ."
+    ],
+    next: "Stay humble. Point to the person of Christ rather than debating every scientific detail."
+  },
+  {
+    id: "church-hypocrisy",
+    title: "The church is full of hypocrites",
+    tags: ["church", "hurt", "common"],
+    principles: "The church is made of sinners. Hypocrisy is real and grievous. Jesus reserved His strongest words for religious hypocrites, yet He still builds His church.",
+    scriptures: ["Matthew 23", "1 Timothy 1:15", "Ephesians 5:25-27"],
+    responses: [
+      "You're right that hypocrisy is a real problem. Jesus hated it too. The question is whether that means He isn't Lord, or whether His people still need Him.",
+      "I'm sorry if you've been hurt by church people. That grieves me."
+    ],
+    next: "Acknowledge the hurt. Point to Christ, not to imperfect people."
   }
 ];
 
@@ -272,6 +352,18 @@ const modules = [
     title: "Sovereignty and Human Responsibility",
     summary: "God is sovereign in salvation, and we are still commanded to proclaim the gospel to all.",
     content: "We do not know who the elect are. We freely offer Christ to everyone. The results belong to God."
+  },
+  {
+    id: "boldness",
+    title: "Boldness in the Spirit",
+    summary: "Courage to speak comes from the Holy Spirit, not from personality or technique.",
+    content: "Acts 4:29-31. Pray for boldness. Depend on the Spirit. Speak the truth in love even when it costs something."
+  },
+  {
+    id: "family",
+    title: "Sharing with Family",
+    summary: "Family conversations can be the hardest. Love, patience, and consistent living matter.",
+    content: "1 Peter 3:1-2. Live the gospel before you speak it. Pray specifically. Look for natural openings rather than forcing every conversation."
   }
 ];
 
@@ -325,7 +417,7 @@ function renderSituations(filter = '') {
       <strong>${s.title}</strong>
       <div style="color:var(--muted);font-size:0.9rem;margin-top:0.2rem;">${s.tags.join(' · ')}</div>
     </div>
-  `).join('') || '<p>No matches. Try a different word.</p>';
+  `).join('') || '<p>No matches. Try a different word or use AI Find.</p>';
 }
 
 async function showSituation(id) {
@@ -368,6 +460,31 @@ function filterSituations() {
   renderSituations(q);
 }
 
+async function aiFind() {
+  const q = document.getElementById('search').value.trim();
+  const out = document.getElementById('ai-results');
+  if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
+  out.innerHTML = '<p class="note">Looking with AI…</p>';
+  const catalog = [
+    ...situations.map(s => ({ type: 'situation', id: s.id, title: s.title, summary: s.principles })),
+    ...modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary }))
+  ];
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q, catalog })
+    });
+    const data = await res.json();
+    const matches = data.matches || [];
+    out.innerHTML = matches.length
+      ? matches.map(m => `<div class="situation-item" onclick="showSituation('${m.id}')"><strong>${m.title}</strong><div style="color:var(--muted);font-size:0.9rem;">${m.why || ''}</div></div>`).join('')
+      : '<p class="note">No strong AI match. Try browsing or different words.</p>';
+  } catch (e) {
+    out.innerHTML = '<p class="note">AI search unavailable right now. Use the list below.</p>';
+  }
+}
+
 function renderModules() {
   const list = document.getElementById('module-list');
   list.innerHTML = modules.map(m => `
@@ -392,6 +509,43 @@ function showModule(id) {
   `;
 }
 
+function openAuth() {
+  document.getElementById('auth-modal').style.display = 'flex';
+}
+function closeAuth() {
+  document.getElementById('auth-modal').style.display = 'none';
+  document.getElementById('auth-msg').textContent = '';
+}
+async function signIn() {
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  document.getElementById('auth-msg').textContent = error ? error.message : 'Signed in.';
+  if (!error) { await refreshAuth(); closeAuth(); }
+}
+function showCreateAccount() {
+  document.getElementById('auth-title').textContent = 'Create account';
+  document.getElementById('auth-primary').textContent = 'Create';
+  document.getElementById('auth-primary').onclick = signUp;
+}
+async function signUp() {
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const { error } = await sb.auth.signUp({ email, password });
+  document.getElementById('auth-msg').textContent = error ? error.message : 'Account created. Check your email if confirmation is required.';
+}
+async function refreshAuth() {
+  const { data } = await sb.auth.getSession();
+  currentUser = data.session?.user || null;
+  document.getElementById('auth-btn').textContent = currentUser ? 'Sign out' : 'Sign in';
+  document.getElementById('auth-btn').onclick = currentUser ? signOut : openAuth;
+}
+async function signOut() {
+  await sb.auth.signOut();
+  await refreshAuth();
+}
+
+refreshAuth();
 show('home');
 </script>
 </body>
