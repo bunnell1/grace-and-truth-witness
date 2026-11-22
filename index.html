@@ -60,11 +60,12 @@ nav button:hover, nav button.active { color: var(--accent); }
 #auth-btn { background: transparent; border: 1px solid var(--border); color: var(--accent); border-radius: 999px; padding: 0.4rem 0.9rem; font-size: 0.85rem; cursor: pointer; }
 main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .hero { text-align: center; padding: 1.2rem 0 1.6rem; }
-.hero h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: 0.2rem 0 0.55rem; }
+.hero-logo { max-width: 420px; width: 100%; height: auto; margin: 0 auto 0.6rem; display: block; }
 .tagline { font-size: 1.12rem; color: var(--muted); margin: 0 auto 1.4rem; max-width: 34rem; }
 .home-search { max-width: 480px; margin: 1.2rem auto 0.4rem; }
 .btn { background: var(--accent); color: white; border: none; padding: 0.72rem 1.15rem; border-radius: 999px; cursor: pointer; font-family: inherit; font-size: 0.95rem; }
 .btn:hover { background: var(--accent-deep); }
+.btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--border); }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1.55rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
 .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin: 0.2rem 0 1.2rem; }
 .feature { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.35rem 1.15rem; text-align: center; cursor: pointer; }
@@ -76,6 +77,16 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .verse:hover { opacity: 0.85; }
 .verse-text { font-style: normal; margin-top: 0.5rem; font-size: 0.95rem; color: var(--text); }
 .note { background: var(--gold-soft); border-left: 3px solid var(--gold); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; }
+.toolkit-form input[type="text"], .toolkit-form textarea { width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; margin: 0.3rem 0 0.85rem; background: var(--surface); color: var(--text); }
+.toolkit-form textarea { min-height: 88px; resize: vertical; }
+.toolkit-form label { font-weight: 650; display: block; margin-top: 0.35rem; color: var(--accent-deep); }
+.check-item { display: flex; align-items: flex-start; gap: 0.55rem; margin: 0.4rem 0; }
+.check-item input { margin-top: 0.35rem; accent-color: var(--accent); }
+.notes-tools { display: flex; gap: 0.4rem; flex-wrap: wrap; margin: 0.6rem 0; }
+.icon-btn { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--accent); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.icon-btn:hover { border-color: var(--gold); }
+.icon-btn svg { width: 18px; height: 18px; }
+.icon-btn.danger { color: #8B3A3A; }
 #auth-modal { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 2500; display: none; align-items: center; justify-content: center; }
 #auth-modal .card { max-width: 380px; width: 90%; }
 footer { background: var(--surface); border-top: 1px solid var(--border); padding: 1.5rem 1.25rem; margin-top: 2rem; font-size: 0.85rem; color: var(--muted); text-align: center; }
@@ -114,7 +125,7 @@ footer .next { margin-bottom: 0.6rem; }
 <main id="app">
   <section id="home">
     <div class="hero">
-      <h2>Grace & Truth Witness</h2>
+      <img src="logo.jpg" alt="Grace & Truth Witness" class="hero-logo">
       <div class="tagline">Biblical wisdom. Practical tools. Spirit-led conversations.<br>Equipping you to share Christ with grace and truth.</div>
       <div class="home-search">
         <input type="text" id="home-search" class="search-box" placeholder="What did they say or what's the situation?" onkeydown="if(event.key==='Enter') goToSearch()">
@@ -136,7 +147,7 @@ footer .next { margin-bottom: 0.6rem; }
       </div>
       <div class="feature" onclick="show('toolkit')">
         <h3>Toolkit</h3>
-        <p>Gospel outline, conversation notes, prayer list, and follow-up checklist. Print or save.</p>
+        <p>Fillable forms, notes, checklists, and prayer lists. Save, download, print, or clear.</p>
       </div>
     </div>
     <div class="card">
@@ -163,30 +174,9 @@ footer .next { margin-bottom: 0.6rem; }
 
   <section id="toolkit" class="hidden">
     <h2>Witness Toolkit</h2>
-    <div class="card">
-      <h3>Simple Gospel Outline</h3>
-      <ol>
-        <li>God is holy and we are not (Romans 3:23).</li>
-        <li>The wages of sin is death (Romans 6:23).</li>
-        <li>Christ died for our sins and rose again (1 Corinthians 15:3-4).</li>
-        <li>We must repent and believe (Mark 1:15; John 3:16).</li>
-      </ol>
-      <p class="note">This is a starting point. Always open the Bible with the person when possible.</p>
-    </div>
-    <div class="card">
-      <h3>Conversation Notes</h3>
-      <textarea id="notes" class="search-box" rows="6" placeholder="What did they say? What did you hear? Any follow-up?"></textarea>
-      <p><small>Notes stay on this device. They are not uploaded.</small></p>
-    </div>
-    <div class="card">
-      <h3>Follow-up Checklist</h3>
-      <ul>
-        <li>Pray for them by name.</li>
-        <li>Offer to read a passage together next time.</li>
-        <li>Invite them to church or a Bible study.</li>
-        <li>Leave the results with the Lord.</li>
-      </ul>
-    </div>
+    <p class="note">Fillable tools for preparation and follow-up. Notes stay on this device. Use the icons to save, download, upload, clear, or print.</p>
+    <div id="toolkit-list"></div>
+    <div id="toolkit-detail" class="hidden"></div>
   </section>
 
   <section id="scripture" class="hidden">
@@ -230,7 +220,7 @@ footer .next { margin-bottom: 0.6rem; }
       <h3>Scripture text</h3>
       <p>ESV text is fetched when you click a reference. No personal data is sent with those requests.</p>
       <h3>Contact</h3>
-      <p>Questions about privacy may be directed through the GitHub repository issues for this project.</p>
+      <p>Questions about privacy: GraceAndTruthCounsel@gmail.com</p>
     </div>
   </section>
 
@@ -278,6 +268,8 @@ footer .next { margin-bottom: 0.6rem; }
   <div style="margin-top:0.3rem; font-size:0.78rem;">Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</div>
 </footer>
 
+<input type="file" id="file-import" accept=".txt,.json" style="display:none;" onchange="handleImport(event)">
+
 <script>
 const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
@@ -286,6 +278,7 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
 const verseCache = {};
 let currentUser = null;
+let currentToolkitId = null;
 
 const situations = [
   {
@@ -425,6 +418,78 @@ const modules = [
   }
 ];
 
+const toolkitItems = [
+  {
+    id: "conversation-prep",
+    title: "Conversation Prep Notes",
+    summary: "What they said, what you heard, Scriptures to open, and a next step.",
+    content: `
+      <h2>Conversation Prep Notes</h2>
+      <form class="toolkit-form" id="form-prep">
+        <label>Person or situation (no last names needed)</label><input type="text" id="prep-who">
+        <label>What they said</label><textarea id="prep-said"></textarea>
+        <label>What you heard (heart or question underneath)</label><textarea id="prep-heard"></textarea>
+        <label>Key Scripture to open</label><input type="text" id="prep-verse" placeholder="e.g. John 14:6">
+        <label>Suggested next step</label><textarea id="prep-next"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "gospel-outline",
+    title: "Gospel Outline Worksheet",
+    summary: "Fill in a simple four-point outline with your own wording and Scriptures.",
+    content: `
+      <h2>Gospel Outline Worksheet</h2>
+      <form class="toolkit-form" id="form-gospel">
+        <label>1. God is holy / we are not</label><textarea id="go-1" placeholder="Romans 3:23…"></textarea>
+        <label>2. The wages of sin is death</label><textarea id="go-2" placeholder="Romans 6:23…"></textarea>
+        <label>3. Christ died and rose</label><textarea id="go-3" placeholder="1 Corinthians 15:3-4…"></textarea>
+        <label>4. Repent and believe</label><textarea id="go-4" placeholder="Mark 1:15; John 3:16…"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "follow-up",
+    title: "Follow-up Checklist",
+    summary: "Pray, offer Scripture, invite, and leave results with the Lord.",
+    content: `
+      <h2>Follow-up Checklist</h2>
+      <form class="toolkit-form" id="form-follow">
+        <div class="check-item"><input type="checkbox" id="fu-pray"><label for="fu-pray">Prayed for them by name</label></div>
+        <div class="check-item"><input type="checkbox" id="fu-verse"><label for="fu-verse">Offered to read a passage together next time</label></div>
+        <div class="check-item"><input type="checkbox" id="fu-invite"><label for="fu-invite">Invited to church or a Bible study</label></div>
+        <div class="check-item"><input type="checkbox" id="fu-leave"><label for="fu-leave">Left the results with the Lord</label></div>
+        <label>Notes</label><textarea id="fu-notes"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "prayer-list",
+    title: "Prayer List",
+    summary: "Names and specific requests for people you are sharing with.",
+    content: `
+      <h2>Prayer List</h2>
+      <form class="toolkit-form" id="form-prayer">
+        <label>Names and requests</label><textarea id="pr-list" rows="8" placeholder="Name — what to pray for"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "heart-check",
+    title: "Heart Check Before Speaking",
+    summary: "A short check for your own motives and dependence on the Spirit.",
+    content: `
+      <h2>Heart Check Before Speaking</h2>
+      <form class="toolkit-form" id="form-heart">
+        <div class="check-item"><input type="checkbox" id="hc-motive"><label for="hc-motive">My motive is love for Christ and for them, not winning an argument</label></div>
+        <div class="check-item"><input type="checkbox" id="hc-spirit"><label for="hc-spirit">I am depending on the Spirit, not on my own cleverness</label></div>
+        <div class="check-item"><input type="checkbox" id="hc-listen"><label for="hc-listen">I plan to listen before I speak</label></div>
+        <label>Anything to confess or pray about first</label><textarea id="hc-notes"></textarea>
+      </form>
+    `
+  }
+];
+
 async function fetchESV(ref) {
   if (verseCache[ref]) return verseCache[ref];
   try {
@@ -457,6 +522,7 @@ function show(section) {
   document.getElementById(section).classList.remove('hidden');
   if (section === 'situations') renderSituations();
   if (section === 'modules') renderModules();
+  if (section === 'toolkit') renderToolkitList();
   window.scrollTo(0,0);
 }
 
@@ -574,6 +640,110 @@ function showModule(id) {
       <p>${m.content}</p>
     </div>
   `;
+}
+
+function renderToolkitList() {
+  const list = document.getElementById('toolkit-list');
+  const detail = document.getElementById('toolkit-detail');
+  detail.classList.add('hidden');
+  list.classList.remove('hidden');
+  list.innerHTML = toolkitItems.map(t => `
+    <div class="situation-item" onclick="showToolkit('${t.id}')">
+      <strong>${t.title}</strong>
+      <div style="color:var(--muted);font-size:0.9rem;margin-top:0.2rem;">${t.summary}</div>
+    </div>
+  `).join('');
+}
+
+function showToolkit(id) {
+  const item = toolkitItems.find(t => t.id === id);
+  currentToolkitId = id;
+  document.getElementById('toolkit-list').classList.add('hidden');
+  const detail = document.getElementById('toolkit-detail');
+  detail.classList.remove('hidden');
+  const savedNotes = localStorage.getItem('toolkit-notes-' + id) || '';
+  detail.innerHTML = `
+    <div class="card">
+      ${item.content}
+      <h3 style="margin-top:1.5rem;">Personal Notes</h3>
+      <textarea class="search-box" id="toolkit-notes-${id}" rows="4" placeholder="Private notes…">${savedNotes}</textarea>
+      <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
+      <div class="notes-tools">
+        <button class="icon-btn" onclick="saveToolkit('${id}')" title="Save — keep these notes in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></svg></button>
+        <button class="icon-btn" type="button" onclick="exportNotes('toolkit-notes-${id}')" title="Download — save a named, dated file to your device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></button>
+        <button class="icon-btn" type="button" onclick="beginImport('toolkit-notes-${id}')" title="Upload — load a file saved from this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20V9"/><path d="m7 13 5-5 5 5"/><path d="M5 4h14"/></svg></button>
+        <button class="icon-btn danger" type="button" onclick="clearToolkit('${id}')" title="Clear — remove the notes and form fields on this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg></button>
+      </div>
+      <button class="btn secondary" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn secondary" onclick="renderToolkitList()" style="margin-left:0.5rem;">← Back to Toolkit</button>
+    </div>
+  `;
+  restoreToolkit(id);
+}
+
+function saveToolkit(id) {
+  const form = document.querySelector('#toolkit-detail form');
+  const data = {};
+  if (form) {
+    form.querySelectorAll('input, textarea').forEach(el => {
+      if (!el.id) return;
+      data[el.id] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+  }
+  localStorage.setItem('toolkit-form-' + id, JSON.stringify(data));
+  const notes = document.getElementById('toolkit-notes-' + id);
+  if (notes) localStorage.setItem('toolkit-notes-' + id, notes.value);
+  alert('Saved in this browser.');
+}
+
+function restoreToolkit(id) {
+  const raw = localStorage.getItem('toolkit-form-' + id);
+  if (!raw) return;
+  let data = {};
+  try { data = JSON.parse(raw); } catch (e) { return; }
+  Object.keys(data).forEach(key => {
+    const el = document.getElementById(key);
+    if (!el) return;
+    if (el.type === 'checkbox') el.checked = !!data[key];
+    else el.value = data[key];
+  });
+}
+
+function exportNotes(notesId) {
+  const el = document.getElementById(notesId);
+  if (!el) return;
+  const text = el.value || '';
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (notesId || 'notes') + '-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function beginImport(notesId) {
+  document.getElementById('file-import').dataset.target = notesId;
+  document.getElementById('file-import').click();
+}
+
+function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const target = e.target.dataset.target;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const el = document.getElementById(target);
+    if (el) el.value = reader.result;
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function clearToolkit(id) {
+  if (!confirm('Clear notes and form fields on this page?')) return;
+  localStorage.removeItem('toolkit-form-' + id);
+  localStorage.removeItem('toolkit-notes-' + id);
+  showToolkit(id);
 }
 
 function openAuth() {
