@@ -10,11 +10,43 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23F7F3EC'/%3E%3Cpath d='M12 40c0-9 7-16 16-18l4-1 4 1c9 2 16 9 16 18v5H12v-5z' fill='%23E7F0EA' stroke='%231F4D3A' stroke-width='1.5'/%3E%3Cpath d='M32 20v22' stroke='%23B08D57' stroke-width='2.8' stroke-linecap='round'/%3E%3Cpath d='M25 26h14' stroke='%23B08D57' stroke-width='2.8' stroke-linecap='round'/%3E%3Cpath d='M16 48h32' stroke='%231F4D3A' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* Styles unchanged from previous version */
-:root { --bg: #F7F3EC; --surface: #FFFcf8; --text: #1C1C1C; --muted: #6B6560; --accent: #1F4D3A; --accent-deep: #16382B; --accent-light: #E7F0EA; --gold: #B08D57; --gold-soft: #F6F1E6; --border: #E4DDD2; --radius: 14px; --shadow: 0 8px 24px rgba(31, 77, 58, 0.05); --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif; --font-sans: "Avenir Next", "Segoe UI", system-ui, sans-serif; }
-html[data-theme="dark"] { --bg: #141816; --surface: #1E2420; --text: #F3EFE7; --muted: #B7AFA4; --accent: #D7C4A3; --accent-deep: #E8D9BE; --accent-light: #2A3830; --gold: #D4B483; --gold-soft: #2C2822; --border: #33403A; --shadow: 0 8px 24px rgba(0, 0, 0, 0.28); }
+:root {
+  --bg: #F7F3EC;
+  --surface: #FFFcf8;
+  --text: #1C1C1C;
+  --muted: #6B6560;
+  --accent: #1F4D3A;
+  --accent-deep: #16382B;
+  --accent-light: #E7F0EA;
+  --gold: #B08D57;
+  --gold-soft: #F6F1E6;
+  --border: #E4DDD2;
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(31, 77, 58, 0.05);
+  --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+}
+html[data-theme="dark"] {
+  --bg: #141816;
+  --surface: #1E2420;
+  --text: #F3EFE7;
+  --muted: #B7AFA4;
+  --accent: #D7C4A3;
+  --accent-deep: #E8D9BE;
+  --accent-light: #2A3830;
+  --gold: #D4B483;
+  --gold-soft: #2C2822;
+  --border: #33403A;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
 * { box-sizing: border-box; }
-body { margin: 0; background: radial-gradient(1200px 500px at 50% -180px, rgba(176,141,87,0.16), transparent 60%), var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.65; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 500px at 50% -180px, rgba(176,141,87,0.16), transparent 60%), var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+}
 h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; color: var(--accent); }
 a { color: var(--accent); }
 .hidden { display: none !important; }
@@ -24,14 +56,18 @@ header { position: sticky; top: 0; z-index: 20; background: rgba(247,243,236,0.9
 .brand svg { width: 40px; height: 40px; flex-shrink: 0; }
 .brand-name { font-family: var(--font-serif); font-size: 1.15rem; color: var(--accent); }
 .brand-sub { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+nav { display: flex; align-items: center; gap: 0.2rem; }
 nav button { background: none; border: none; font-family: inherit; font-size: 0.9rem; color: var(--muted); padding: 0.45rem 0.6rem; cursor: pointer; border-radius: 8px; }
 nav button:hover, nav button.active { color: var(--accent); }
 #auth-btn { background: transparent; border: 1px solid var(--border); color: var(--accent); border-radius: 999px; padding: 0.4rem 0.9rem; font-size: 0.85rem; cursor: pointer; }
+.theme-toggle { background: none; border: none; cursor: pointer; padding: 0.4rem; color: var(--muted); border-radius: 8px; }
+.theme-toggle:hover { color: var(--accent); }
+.theme-toggle svg { width: 20px; height: 20px; }
 main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .hero { text-align: center; padding: 1.2rem 0 1.6rem; }
 .hero-logo { max-width: 420px; width: 100%; height: auto; margin: 0 auto 0.6rem; display: block; }
 .tagline { font-size: 1.12rem; color: var(--muted); margin: 0 auto 1.4rem; max-width: 34rem; }
-.home-search { max-width: 480px; margin: 0.6rem auto 0.8rem; }
+.home-search { max-width: 480px; margin: 0.6rem 0 0.8rem; text-align: left; }
 .btn { background: var(--accent); color: white; border: none; padding: 0.72rem 1.15rem; border-radius: 999px; cursor: pointer; font-family: inherit; font-size: 0.95rem; }
 .btn:hover { background: var(--accent-deep); }
 .btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--border); }
@@ -93,6 +129,12 @@ footer .next { margin-bottom: 0.6rem; }
       <button onclick="show('scripture')">Scripture</button>
       <button onclick="show('about')">About</button>
       <button id="auth-btn" type="button" onclick="openAuth()">Sign in</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
     </nav>
   </div>
 </header>
@@ -267,7 +309,177 @@ let currentUser = null;
 let currentToolkitId = null;
 let currentNotesTarget = null;
 
-const situations = [ /* previous situations array retained */ ];
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  updateThemeIcon();
+}
+function updateThemeIcon() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const icon = document.getElementById('theme-icon');
+  if (isDark) {
+    icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  } else {
+    icon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+  }
+}
+(function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+  updateThemeIcon();
+})();
+
+const situations = [
+  {
+    id: "good-person",
+    title: "I'm a good person",
+    tags: ["works", "self-righteous", "common"],
+    principles: "People naturally measure themselves by other people or by their own intentions. Scripture measures us by God's holy standard. No one is righteous by works.",
+    scriptures: ["Romans 3:10-12", "Romans 3:23", "Isaiah 64:6", "Ephesians 2:8-9"],
+    responses: [
+      "I understand. Most of us think of ourselves as reasonably good. Can I ask—good compared to what? Compared to other people, or compared to God's perfect standard?",
+      "The Bible says none of us meets that standard. That's why we need a Savior, not just a better version of ourselves."
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "I try to be a good person. I help people and don't hurt anyone." },
+      { speaker: "You", text: "I appreciate that. Can I ask—good compared to other people, or compared to a perfect standard?" },
+      { speaker: "Friend", text: "Compared to other people, I guess." },
+      { speaker: "You", text: "The Bible says none of us meets God's perfect standard. That's why we need a Savior." }
+    ],
+    next: "Offer to read Romans 3 together. Pray for them."
+  },
+  {
+    id: "all-religions",
+    title: "All religions lead to God",
+    tags: ["pluralism", "tolerance", "common"],
+    principles: "Jesus claimed exclusivity. Truth is not determined by sincerity. Different religions make contradictory claims about God, sin, and salvation.",
+    scriptures: ["John 14:6", "Acts 4:12", "1 Timothy 2:5"],
+    responses: [
+      "I appreciate that you want to be open. Can I ask a honest question? If two religions contradict each other on whether Jesus is God or just a teacher, can they both be true?",
+      "Jesus said He is the way, the truth, and the life. That claim is either true or it isn't. I'd love to look at what He actually said."
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "I think all religions lead to the same place." },
+      { speaker: "You", text: "I hear that. Can two religions that contradict each other both be true?" },
+      { speaker: "Friend", text: "Maybe they're just different paths." },
+      { speaker: "You", text: "Jesus said He is the way. Would you be open to looking at what He actually claimed?" }
+    ],
+    next: "Point to John 14:6. Invite them to examine the claims of Christ."
+  },
+  {
+    id: "bible-contradictions",
+    title: "The Bible is full of contradictions",
+    tags: ["apologetics", "scripture", "common"],
+    principles: "Apparent difficulties exist, but the Bible has been examined carefully for centuries. Many supposed contradictions dissolve with context, genre, or careful reading.",
+    scriptures: ["2 Timothy 3:16", "Psalm 119:160", "John 17:17"],
+    responses: [
+      "That's a common concern. Would you be open to looking at one specific example together? I'd rather examine a real passage than stay at the level of a general claim.",
+      "I believe the Bible is trustworthy. If there's a particular passage that bothers you, I'd be glad to look at it with you."
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "The Bible is full of contradictions." },
+      { speaker: "You", text: "That's a fair concern. Would you be open to looking at one specific example together?" },
+      { speaker: "Friend", text: "I don't have one off the top of my head." },
+      { speaker: "You", text: "If something comes up, I'd be glad to look at it carefully with you." }
+    ],
+    next: "Ask for a specific example. Recommend a trusted resource on Bible reliability."
+  },
+  {
+    id: "suffering",
+    title: "If God is good, why is there so much suffering?",
+    tags: ["theodicy", "pain", "common"],
+    principles: "Suffering is real and painful. The Bible does not minimize it. It points to a God who entered suffering in Christ and who will one day make all things new.",
+    scriptures: ["Romans 8:18-23", "John 11:35", "Revelation 21:4", "Isaiah 53"],
+    responses: [
+      "That's a hard question, and I don't want to give a quick answer. The Bible takes suffering seriously—Jesus wept. It also says God is working even in the middle of pain.",
+      "Would you be open to looking at what the Bible says about why the world is broken and what God has done about it?"
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "If God is good, why is there so much suffering?" },
+      { speaker: "You", text: "That's a hard question. The Bible doesn't minimize suffering—Jesus wept." },
+      { speaker: "Friend", text: "But why doesn't He stop it?" },
+      { speaker: "You", text: "The Bible says the world is broken because of sin, and God entered the suffering in Christ. Would you be open to looking at that together?" }
+    ],
+    next: "Listen first. Point to the cross. Offer to read Romans 8 or John 11."
+  },
+  {
+    id: "spiritual-not-religious",
+    title: "I'm spiritual but not religious",
+    tags: ["spiritual", "common", "church"],
+    principles: "True spirituality is defined by God, not by personal preference. Jesus calls people into a relationship that includes His church and His Word.",
+    scriptures: ["John 4:23-24", "Hebrews 10:24-25", "Matthew 16:18"],
+    responses: [
+      "I hear that a lot. Can I ask what you mean by spiritual? And what has made organized religion unappealing?",
+      "Jesus said true worshipers worship in spirit and truth. That truth is found in Him and His Word, not just in private feelings."
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "I'm spiritual but not religious." },
+      { speaker: "You", text: "I hear that. What do you mean by spiritual?" },
+      { speaker: "Friend", text: "I just try to be a good person and feel connected." },
+      { speaker: "You", text: "Jesus talked about true worshipers who worship in spirit and truth. Would you be open to hearing what He said about that?" }
+    ],
+    next: "Listen for their story. Point to Jesus as the one who defines true spirituality."
+  },
+  {
+    id: "bible-outdated",
+    title: "The Bible is outdated",
+    tags: ["scripture", "culture", "common"],
+    principles: "God's Word is timeless because human nature and God's character do not change. Cultural forms change; the gospel does not.",
+    scriptures: ["Isaiah 40:8", "Matthew 24:35", "2 Timothy 3:16-17"],
+    responses: [
+      "Some parts do speak to ancient cultures. But the core message about sin, grace, and Christ is as relevant today as ever.",
+      "Would you be open to looking at one passage that still speaks powerfully to modern life?"
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "The Bible is outdated." },
+      { speaker: "You", text: "Some parts do address ancient cultures. But the core message about sin and grace still speaks today." },
+      { speaker: "Friend", text: "Like what?" },
+      { speaker: "You", text: "Would you be open to looking at one passage together?" }
+    ],
+    next: "Offer a specific, relevant passage. Avoid defending every cultural detail at once."
+  },
+  {
+    id: "science-vs-faith",
+    title: "Science and faith can't both be true",
+    tags: ["apologetics", "science", "common"],
+    principles: "Many of the greatest scientists in history were believers. The Bible is not a science textbook, but it is true in all it affirms.",
+    scriptures: ["Psalm 19:1", "Colossians 1:16-17", "Romans 1:20"],
+    responses: [
+      "I don't see science and faith as enemies. Many things science describes point to an ordered universe that has a Creator.",
+      "The real question is whether the God who made the universe has spoken in Christ."
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "Science and faith can't both be true." },
+      { speaker: "You", text: "I don't see them as enemies. Many things science describes point to an ordered universe." },
+      { speaker: "Friend", text: "But the Bible isn't a science book." },
+      { speaker: "You", text: "That's true. The real question is whether the God who made the universe has spoken in Christ." }
+    ],
+    next: "Stay humble. Point to the person of Christ rather than debating every scientific detail."
+  },
+  {
+    id: "church-hypocrisy",
+    title: "The church is full of hypocrites",
+    tags: ["church", "hurt", "common"],
+    principles: "The church is made of sinners. Hypocrisy is real and grievous. Jesus reserved His strongest words for religious hypocrites, yet He still builds His church.",
+    scriptures: ["Matthew 23", "1 Timothy 1:15", "Ephesians 5:25-27"],
+    responses: [
+      "You're right that hypocrisy is a real problem. Jesus hated it too. The question is whether that means He isn't Lord, or whether His people still need Him.",
+      "I'm sorry if you've been hurt by church people. That grieves me."
+    ],
+    dialogue: [
+      { speaker: "Friend", text: "The church is full of hypocrites." },
+      { speaker: "You", text: "You're right that hypocrisy is a real problem. Jesus hated it too." },
+      { speaker: "Friend", text: "Then why go?" },
+      { speaker: "You", text: "Because the church is made of sinners who still need Him. I'm sorry if you've been hurt by church people." }
+    ],
+    next: "Acknowledge the hurt. Point to Christ, not to imperfect people."
+  }
+];
+
 const modules = [
   {
     id: "listening",
@@ -331,21 +543,286 @@ const modules = [
   }
 ];
 
-const toolkitItems = [ /* previous toolkit items retained */ ];
+const toolkitItems = [
+  {
+    id: "conversation-prep",
+    title: "Conversation Prep Notes",
+    summary: "What they said, what you heard, Scriptures to open, and a next step.",
+    content: `
+      <h2>Conversation Prep Notes</h2>
+      <form class="toolkit-form" id="form-prep">
+        <label>Person or situation (no last names needed)</label><input type="text" id="prep-who">
+        <label>What they said</label><textarea id="prep-said"></textarea>
+        <label>What you heard (heart or question underneath)</label><textarea id="prep-heard"></textarea>
+        <label>Key Scripture to open</label><input type="text" id="prep-verse" placeholder="e.g. John 14:6">
+        <label>Suggested next step</label><textarea id="prep-next"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "gospel-outline",
+    title: "Gospel Outline Worksheet",
+    summary: "Fill in a simple four-point outline with your own wording and Scriptures.",
+    content: `
+      <h2>Gospel Outline Worksheet</h2>
+      <form class="toolkit-form" id="form-gospel">
+        <label>1. God is holy / we are not</label><textarea id="go-1" placeholder="Romans 3:23…"></textarea>
+        <label>2. The wages of sin is death</label><textarea id="go-2" placeholder="Romans 6:23…"></textarea>
+        <label>3. Christ died and rose</label><textarea id="go-3" placeholder="1 Corinthians 15:3-4…"></textarea>
+        <label>4. Repent and believe</label><textarea id="go-4" placeholder="Mark 1:15; John 3:16…"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "follow-up",
+    title: "Follow-up Checklist",
+    summary: "Pray, offer Scripture, invite, and leave results with the Lord.",
+    content: `
+      <h2>Follow-up Checklist</h2>
+      <form class="toolkit-form" id="form-follow">
+        <div class="check-item"><input type="checkbox" id="fu-pray"><label for="fu-pray">Prayed for them by name</label></div>
+        <div class="check-item"><input type="checkbox" id="fu-verse"><label for="fu-verse">Offered to read a passage together next time</label></div>
+        <div class="check-item"><input type="checkbox" id="fu-invite"><label for="fu-invite">Invited to church or a Bible study</label></div>
+        <div class="check-item"><input type="checkbox" id="fu-leave"><label for="fu-leave">Left the results with the Lord</label></div>
+        <label>Notes</label><textarea id="fu-notes"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "prayer-list",
+    title: "Prayer List",
+    summary: "Names and specific requests for people you are sharing with.",
+    content: `
+      <h2>Prayer List</h2>
+      <form class="toolkit-form" id="form-prayer">
+        <label>Names and requests</label><textarea id="pr-list" rows="8" placeholder="Name — what to pray for"></textarea>
+      </form>
+    `
+  },
+  {
+    id: "heart-check",
+    title: "Heart Check Before Speaking",
+    summary: "A short check for your own motives and dependence on the Spirit.",
+    content: `
+      <h2>Heart Check Before Speaking</h2>
+      <form class="toolkit-form" id="form-heart">
+        <div class="check-item"><input type="checkbox" id="hc-motive"><label for="hc-motive">My motive is love for Christ and for them, not winning an argument</label></div>
+        <div class="check-item"><input type="checkbox" id="hc-spirit"><label for="hc-spirit">I am depending on the Spirit, not on my own cleverness</label></div>
+        <div class="check-item"><input type="checkbox" id="hc-listen"><label for="hc-listen">I plan to listen before I speak</label></div>
+        <label>Anything to confess or pray about first</label><textarea id="hc-notes"></textarea>
+      </form>
+    `
+  }
+];
 
-async function fetchESV(ref) { /* previous implementation */ }
-function truncate(text, max = 220) { /* previous */ }
-function openEsvWindow(ref) { /* previous */ }
-function closeEsvModal() { /* previous */ }
-async function lookupVerse() { /* previous */ }
-function renderVerse(ref, text, phrase) { /* previous */ }
-function show(section) { /* previous */ }
-function goToSearch() { /* previous */ }
-function renderSituations(filter = '') { /* previous */ }
-async function showSituation(id) { /* previous */ }
-function filterSituations() { /* previous */ }
-async function aiFind() { /* previous */ }
-function renderModules() { /* previous */ }
+async function fetchESV(ref) {
+  if (verseCache[ref]) return verseCache[ref];
+  try {
+    const url = `https://api.esv.org/v3/passage/text/?q=${encodeURIComponent(ref)}&include-headings=false&include-footnotes=false&include-verse-numbers=false&include-short-copyright=false&include-passage-references=false`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Token ${ESV_TOKEN}` }
+    });
+    if (!res.ok) throw new Error('ESV request failed');
+    const data = await res.json();
+    const text = (data.passages && data.passages[0]) ? data.passages[0].trim() : 'Passage not found.';
+    verseCache[ref] = text;
+    return text;
+  } catch (e) {
+    console.error(e);
+    return 'Unable to load passage. Check your connection or try again.';
+  }
+}
+
+function truncate(text, max = 220) {
+  if (!text || text.length <= max) return text;
+  return text.slice(0, max).trim() + '…';
+}
+
+function openEsvWindow(ref) {
+  const url = `https://www.esv.org/${encodeURIComponent(ref)}/`;
+  const isMobile = window.innerWidth < 700;
+  if (isMobile) {
+    document.getElementById('esv-modal-content').innerHTML = `<iframe src="${url}" style="width:100%;height:70vh;border:none;"></iframe>`;
+    document.getElementById('esv-modal').style.display = 'flex';
+  } else {
+    window.open(url, '_blank', 'noopener');
+  }
+}
+
+function closeEsvModal() {
+  document.getElementById('esv-modal').style.display = 'none';
+  document.getElementById('esv-modal-content').innerHTML = '';
+}
+
+async function lookupVerse() {
+  const q = document.getElementById('verse-search').value.trim();
+  if (!q) return;
+  const result = document.getElementById('verse-result');
+  result.innerHTML = '<p>Looking…</p>';
+
+  if (/\d/.test(q) && /[a-zA-Z]/.test(q)) {
+    const text = await fetchESV(q);
+    result.innerHTML = renderVerse(q, text);
+    return;
+  }
+
+  result.innerHTML = '<p>Searching for the closest match…</p>';
+  try {
+    const catalog = [
+      ...situations.flatMap(s => s.scriptures.map(ref => ({ type: 'scripture', id: ref, title: ref, summary: s.title }))),
+      { type: 'scripture', id: 'Psalm 23:1', title: 'Psalm 23:1', summary: 'The Lord is my shepherd' },
+      { type: 'scripture', id: 'John 3:16', title: 'John 3:16', summary: 'For God so loved the world' },
+      { type: 'scripture', id: 'Romans 3:23', title: 'Romans 3:23', summary: 'All have sinned' }
+    ];
+    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q, catalog })
+    });
+    const data = await res.json();
+    const matches = data.matches || [];
+    if (matches.length && matches[0].id) {
+      const ref = matches[0].id;
+      const text = await fetchESV(ref);
+      result.innerHTML = renderVerse(ref, text, q);
+    } else {
+      result.innerHTML = '<p class="note">No strong match found. Try a clearer phrase or a reference.</p>';
+    }
+  } catch (e) {
+    result.innerHTML = '<p class="note">Lookup unavailable. Try a specific reference.</p>';
+  }
+}
+
+function renderVerse(ref, text, phrase) {
+  const short = truncate(text);
+  const extra = phrase ? ` <small>(closest match for “${phrase}”)</small>` : '';
+  return `<div class="verse">
+    <span class="verse-ref" onclick="openEsvWindow('${ref}')" title="${text.replace(/"/g, '"')}">${ref}</span>${extra}
+    <div class="verse-text">${short}</div>
+    <div class="verse-popup">${text}</div>
+  </div>`;
+}
+
+function show(section) {
+  document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+  const el = document.getElementById(section);
+  if (el) el.classList.remove('hidden');
+  if (section === 'situations') renderSituations();
+  if (section === 'modules') renderModules();
+  if (section === 'toolkit') renderToolkitList();
+  window.scrollTo(0,0);
+}
+
+function goToSearch() {
+  const q = document.getElementById('home-search').value.trim();
+  show('situations');
+  if (q) {
+    document.getElementById('search').value = q;
+    aiFind();
+  }
+}
+
+function renderSituations(filter = '') {
+  const list = document.getElementById('situation-list');
+  const detail = document.getElementById('situation-detail');
+  detail.classList.add('hidden');
+  list.classList.remove('hidden');
+  const filtered = situations.filter(s => 
+    s.title.toLowerCase().includes(filter.toLowerCase()) ||
+    s.tags.some(t => t.includes(filter.toLowerCase())) ||
+    s.principles.toLowerCase().includes(filter.toLowerCase())
+  );
+  list.innerHTML = filtered.map(s => `
+    <div class="situation-item" onclick="showSituation('${s.id}')">
+      <strong>${s.title}</strong>
+      <div style="color:var(--muted);font-size:0.9rem;margin-top:0.2rem;">${s.tags.join(' · ')}</div>
+    </div>
+  `).join('') || '<p>No matches. Try a different word or use Find Best Match.</p>';
+}
+
+async function showSituation(id) {
+  const s = situations.find(x => x.id === id);
+  const list = document.getElementById('situation-list');
+  const detail = document.getElementById('situation-detail');
+  list.classList.add('hidden');
+  detail.classList.remove('hidden');
+  const notesId = 'situation-notes-' + id;
+  const savedNotes = localStorage.getItem(notesId) || '';
+  detail.innerHTML = `
+    <button class="btn" onclick="renderSituations(document.getElementById('search').value)" style="margin-bottom:1rem;">← Back to list</button>
+    <div class="card">
+      <h2>${s.title}</h2>
+      <h3>Biblical Principles</h3>
+      <p>${s.principles}</p>
+      <h3>Key Scriptures</h3>
+      <div id="scripture-container-${s.id}">Loading…</div>
+      <h3>Sample Response Directions</h3>
+      <ul>${s.responses.map(r => `<li>${r}</li>`).join('')}</ul>
+      ${s.dialogue ? `<h3>Sample Dialogue</h3><div class="note">${s.dialogue.map(d => `<p><strong>${d.speaker}:</strong> ${d.text}</p>`).join('')}</div>` : ''}
+      <h3>Suggested Next Step</h3>
+      <p>${s.next}</p>
+      <div class="note">These are directions, not scripts. Test everything against Scripture. Pray. Listen. Point to Christ.</div>
+
+      <h3 style="margin-top:1.5rem;">Personal Notes</h3>
+      <textarea class="notes-area" id="${notesId}" placeholder="Private notes for this situation…">${savedNotes}</textarea>
+      <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
+      <div class="notes-tools">
+        <button class="icon-btn" onclick="saveNotes('${notesId}')" title="Save — keep these notes in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></svg></button>
+        <button class="icon-btn" type="button" onclick="exportNotes('${notesId}')" title="Download — save a named, dated file to your device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></button>
+        <button class="icon-btn" type="button" onclick="beginImport('${notesId}')" title="Upload — load a file saved from this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20V9"/><path d="m7 13 5-5 5 5"/><path d="M5 4h14"/></svg></button>
+        <button class="icon-btn danger" type="button" onclick="clearNotes('${notesId}')" title="Clear — remove the notes on this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg></button>
+      </div>
+      <button class="btn secondary" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+  `;
+
+  const container = document.getElementById(`scripture-container-${s.id}`);
+  container.innerHTML = '';
+  for (const ref of s.scriptures) {
+    const text = await fetchESV(ref);
+    container.innerHTML += renderVerse(ref, text);
+  }
+}
+
+function filterSituations() {
+  const q = document.getElementById('search').value;
+  renderSituations(q);
+}
+
+async function aiFind() {
+  const q = document.getElementById('search').value.trim();
+  const out = document.getElementById('ai-results');
+  if (!q) { out.innerHTML = '<p class="note">Type a few words first.</p>'; return; }
+  out.innerHTML = '<p class="note">Looking…</p>';
+  const catalog = [
+    ...situations.map(s => ({ type: 'situation', id: s.id, title: s.title, summary: s.principles })),
+    ...modules.map(m => ({ type: 'module', id: m.id, title: m.title, summary: m.summary }))
+  ];
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/find', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_KEY, apikey: SUPABASE_KEY },
+      body: JSON.stringify({ q, catalog })
+    });
+    const data = await res.json();
+    const matches = data.matches || [];
+    out.innerHTML = matches.length
+      ? matches.map(m => `<div class="situation-item" onclick="showSituation('${m.id}')"><strong>${m.title}</strong><div style="color:var(--muted);font-size:0.9rem;">${m.why || ''}</div></div>`).join('')
+      : '<p class="note">No strong match. Try browsing or different words.</p>';
+  } catch (e) {
+    out.innerHTML = '<p class="note">Search unavailable right now. Use the list below.</p>';
+  }
+}
+
+function renderModules() {
+  const list = document.getElementById('module-list');
+  list.innerHTML = modules.map(m => `
+    <div class="situation-item" onclick="showModule('${m.id}')">
+      <strong>${m.title}</strong>
+      <div style="color:var(--muted);font-size:0.9rem;margin-top:0.2rem;">${m.summary}</div>
+    </div>
+  `).join('');
+}
 
 async function showModule(id) {
   const m = modules.find(x => x.id === id);
@@ -379,6 +856,7 @@ async function showModule(id) {
       </div>
     </div>
   `;
+
   const container = document.getElementById(`mod-scriptures-${id}`);
   container.innerHTML = '';
   for (const ref of (m.scriptures || [])) {
@@ -387,24 +865,169 @@ async function showModule(id) {
   }
 }
 
-function renderToolkitList() { /* previous */ }
-function showToolkit(id) { /* previous */ }
-function saveToolkit(id) { /* previous */ }
-function restoreToolkit(id) { /* previous */ }
-function saveNotes(id) { /* previous */ }
-function exportNotes(notesId) { /* previous */ }
-function beginImport(notesId) { /* previous */ }
-function handleImport(e) { /* previous */ }
-function clearNotes(id) { /* previous */ }
-function clearToolkit(id) { /* previous */ }
-function openAuth() { /* previous */ }
-function closeAuth() { /* previous */ }
-async function signIn() { /* previous */ }
-function showCreateAccount() { /* previous */ }
-async function signUp() { /* previous */ }
-async function forgotPassword() { /* previous */ }
-async function refreshAuth() { /* previous */ }
-async function signOut() { /* previous */ }
+function renderToolkitList() {
+  const list = document.getElementById('toolkit-list');
+  const detail = document.getElementById('toolkit-detail');
+  detail.classList.add('hidden');
+  list.classList.remove('hidden');
+  list.innerHTML = toolkitItems.map(t => `
+    <div class="situation-item" onclick="showToolkit('${t.id}')">
+      <strong>${t.title}</strong>
+      <div style="color:var(--muted);font-size:0.9rem;margin-top:0.2rem;">${t.summary}</div>
+    </div>
+  `).join('');
+}
+
+function showToolkit(id) {
+  const item = toolkitItems.find(t => t.id === id);
+  currentToolkitId = id;
+  document.getElementById('toolkit-list').classList.add('hidden');
+  const detail = document.getElementById('toolkit-detail');
+  detail.classList.remove('hidden');
+  const savedNotes = localStorage.getItem('toolkit-notes-' + id) || '';
+  detail.innerHTML = `
+    <div class="card">
+      ${item.content}
+      <h3 style="margin-top:1.5rem;">Personal Notes</h3>
+      <textarea class="notes-area" id="toolkit-notes-${id}" placeholder="Private notes…">${savedNotes}</textarea>
+      <p class="note" style="margin:.4rem 0 .6rem;">Stored in this browser only. Download a named file to keep a copy.</p>
+      <div class="notes-tools">
+        <button class="icon-btn" onclick="saveToolkit('${id}')" title="Save — keep these notes in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></svg></button>
+        <button class="icon-btn" type="button" onclick="exportNotes('toolkit-notes-${id}')" title="Download — save a named, dated file to your device"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></button>
+        <button class="icon-btn" type="button" onclick="beginImport('toolkit-notes-${id}')" title="Upload — load a file saved from this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20V9"/><path d="m7 13 5-5 5 5"/><path d="M5 4h14"/></svg></button>
+        <button class="icon-btn danger" type="button" onclick="clearToolkit('${id}')" title="Clear — remove the notes and form fields on this page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg></button>
+      </div>
+      <button class="btn secondary" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn secondary" onclick="renderToolkitList()" style="margin-left:0.5rem;">← Back to Toolkit</button>
+    </div>
+  `;
+  restoreToolkit(id);
+}
+
+function saveToolkit(id) {
+  const form = document.querySelector('#toolkit-detail form');
+  const data = {};
+  if (form) {
+    form.querySelectorAll('input, textarea').forEach(el => {
+      if (!el.id) return;
+      data[el.id] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+  }
+  localStorage.setItem('toolkit-form-' + id, JSON.stringify(data));
+  const notes = document.getElementById('toolkit-notes-' + id);
+  if (notes) localStorage.setItem('toolkit-notes-' + id, notes.value);
+  alert('Saved in this browser.');
+}
+
+function restoreToolkit(id) {
+  const raw = localStorage.getItem('toolkit-form-' + id);
+  if (!raw) return;
+  let data = {};
+  try { data = JSON.parse(raw); } catch (e) { return; }
+  Object.keys(data).forEach(key => {
+    const el = document.getElementById(key);
+    if (!el) return;
+    if (el.type === 'checkbox') el.checked = !!data[key];
+    else el.value = data[key];
+  });
+}
+
+function saveNotes(id) {
+  const el = document.getElementById(id);
+  if (el) localStorage.setItem(id, el.value);
+  alert('Notes saved in this browser.');
+}
+
+function exportNotes(notesId) {
+  const el = document.getElementById(notesId);
+  if (!el) return;
+  const text = el.value || '';
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (notesId || 'notes') + '-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function beginImport(notesId) {
+  currentNotesTarget = notesId;
+  document.getElementById('file-import').click();
+}
+
+function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file || !currentNotesTarget) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const el = document.getElementById(currentNotesTarget);
+    if (el) el.value = reader.result;
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function clearNotes(id) {
+  if (!confirm('Clear these notes?')) return;
+  localStorage.removeItem(id);
+  const el = document.getElementById(id);
+  if (el) el.value = '';
+}
+
+function clearToolkit(id) {
+  if (!confirm('Clear notes and form fields on this page?')) return;
+  localStorage.removeItem('toolkit-form-' + id);
+  localStorage.removeItem('toolkit-notes-' + id);
+  showToolkit(id);
+}
+
+function openAuth() {
+  document.getElementById('auth-modal').style.display = 'flex';
+  document.getElementById('auth-name-fields').classList.add('hidden');
+  document.getElementById('auth-title').textContent = 'Sign in';
+  document.getElementById('auth-primary').textContent = 'Sign in';
+  document.getElementById('auth-primary').onclick = signIn;
+}
+function closeAuth() {
+  document.getElementById('auth-modal').style.display = 'none';
+  document.getElementById('auth-msg').textContent = '';
+}
+async function signIn() {
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  document.getElementById('auth-msg').textContent = error ? error.message : 'Signed in.';
+  if (!error) { await refreshAuth(); closeAuth(); }
+}
+function showCreateAccount() {
+  document.getElementById('auth-title').textContent = 'Create account';
+  document.getElementById('auth-name-fields').classList.remove('hidden');
+  document.getElementById('auth-primary').textContent = 'Create';
+  document.getElementById('auth-primary').onclick = signUp;
+}
+async function signUp() {
+  const name = document.getElementById('auth-name').value.trim();
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const { error } = await sb.auth.signUp({ email, password, options: { data: { name } } });
+  document.getElementById('auth-msg').textContent = error ? error.message : 'Account created. Check your email if confirmation is required.';
+}
+async function forgotPassword() {
+  const email = document.getElementById('auth-email').value.trim();
+  if (!email) { document.getElementById('auth-msg').textContent = 'Enter your email first.'; return; }
+  const { error } = await sb.auth.resetPasswordForEmail(email);
+  document.getElementById('auth-msg').textContent = error ? error.message : 'Password reset email sent. Check your inbox.';
+}
+async function refreshAuth() {
+  const { data } = await sb.auth.getSession();
+  currentUser = data.session?.user || null;
+  document.getElementById('auth-btn').textContent = currentUser ? 'Sign out' : 'Sign in';
+  document.getElementById('auth-btn').onclick = currentUser ? signOut : openAuth;
+}
+async function signOut() {
+  await sb.auth.signOut();
+  await refreshAuth();
+}
 
 refreshAuth();
 show('home');
