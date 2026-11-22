@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grace & Truth Witness | Sharing the Gospel</title>
 <meta name="description" content="A preparation aid for believers to share their faith. Search situations and things people say. Scripture, sample responses, prayer, and practical tools. Used alongside the Bible, prayer, and the local church.">
-<link rel="canonical" href="https://graceandtruthwitness.com/">
+<link rel="canonical" href="https://bunnell1.github.io/grace-and-truth-witness/">
 <meta name="robots" content="index, follow">
 <style>
 :root {
@@ -68,7 +68,9 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .search-box { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; margin: 0.5rem 0 1rem; background: var(--surface); color: var(--text); }
 .situation-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem; cursor: pointer; }
 .situation-item:hover { border-color: var(--gold); }
-.verse { background: var(--accent-light); border-left: 3px solid var(--gold); padding: 0.85rem 1.05rem; margin: 1rem 0; font-style: italic; }
+.verse { background: var(--accent-light); border-left: 3px solid var(--gold); padding: 0.85rem 1.05rem; margin: 1rem 0; font-style: italic; cursor: pointer; }
+.verse:hover { opacity: 0.85; }
+.verse-text { font-style: normal; margin-top: 0.5rem; font-size: 0.95rem; color: var(--text); }
 .note { background: var(--gold-soft); border-left: 3px solid var(--gold); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; }
 @media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } }
 </style>
@@ -87,6 +89,7 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
       <button onclick="show('situations')">Situations</button>
       <button onclick="show('modules')">Growth</button>
       <button onclick="show('toolkit')">Toolkit</button>
+      <button onclick="show('scripture')">Scripture</button>
       <button onclick="show('about')">About</button>
     </nav>
   </div>
@@ -99,7 +102,7 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
       <div class="tagline">Biblical wisdom. Practical tools. Spirit-led conversations.<br>Equipping you to share Christ with grace and truth.</div>
       <div class="btn-row">
         <button class="btn" onclick="show('situations')">Find a Situation</button>
-        <button class="btn" onclick="show('modules')">Growth Modules</button>
+        <button class="btn" onclick="show('scripture')">Look up a Verse</button>
       </div>
     </div>
     <div class="feature-grid">
@@ -118,7 +121,7 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
     </div>
     <div class="card">
       <h3>How to use this</h3>
-      <p>Start by searching a situation or something a person said. Review the biblical principles and sample directions. Pray. Then speak with love and clarity. Everything here is meant to be tested against Scripture and used alongside the local church and prayer.</p>
+      <p>Start by searching a situation or something a person said. Review the biblical principles and sample directions. Click any Scripture reference to see the ESV text. Pray. Then speak with love and clarity. Everything here is meant to be tested against Scripture and used alongside the local church and prayer.</p>
     </div>
   </section>
 
@@ -154,6 +157,16 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
     </div>
   </section>
 
+  <section id="scripture" class="hidden">
+    <h2>Scripture Lookup</h2>
+    <div class="card">
+      <input type="text" id="verse-search" class="search-box" placeholder="e.g. John 3:16 or Romans 3:23-24" onkeydown="if(event.key==='Enter') lookupVerse()">
+      <button class="btn" onclick="lookupVerse()">Look up ESV</button>
+      <div id="verse-result" style="margin-top:1rem;"></div>
+      <p class="note" style="margin-top:1rem;">Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</p>
+    </div>
+  </section>
+
   <section id="about" class="hidden">
     <h2>About</h2>
     <div class="card">
@@ -170,11 +183,15 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
       <p>Helping a believer show up prepared: applicable Scripture, biblical principles, sample response directions, and care for the speaker’s own heart.</p>
       <h3>What this site is not</h3>
       <p>It is not a script, a guarantee of conversion, or a substitute for the Spirit, prayer, or the local church. Sample responses are direction, not lines to recite. Entered data stays on your device.</p>
+      <p style="font-size:0.9rem;color:var(--muted);margin-top:1.5rem;">Scripture quotations marked “ESV” are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.</p>
     </div>
   </section>
 </main>
 
 <script>
+const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
+const verseCache = {};
+
 const situations = [
   {
     id: "good-person",
@@ -253,6 +270,33 @@ const modules = [
   }
 ];
 
+async function fetchESV(ref) {
+  if (verseCache[ref]) return verseCache[ref];
+  try {
+    const url = `https://api.esv.org/v3/passage/text/?q=${encodeURIComponent(ref)}&include-headings=false&include-footnotes=false&include-verse-numbers=false&include-short-copyright=false&include-passage-references=false`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Token ${ESV_TOKEN}` }
+    });
+    if (!res.ok) throw new Error('ESV request failed');
+    const data = await res.json();
+    const text = (data.passages && data.passages[0]) ? data.passages[0].trim() : 'Passage not found.';
+    verseCache[ref] = text;
+    return text;
+  } catch (e) {
+    console.error(e);
+    return 'Unable to load passage. Check your connection or try again.';
+  }
+}
+
+async function lookupVerse() {
+  const ref = document.getElementById('verse-search').value.trim();
+  if (!ref) return;
+  const result = document.getElementById('verse-result');
+  result.innerHTML = '<p>Loading…</p>';
+  const text = await fetchESV(ref);
+  result.innerHTML = `<div class="verse"><strong>${ref}</strong><div class="verse-text">${text}</div></div>`;
+}
+
 function show(section) {
   document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
   document.getElementById(section).classList.remove('hidden');
@@ -279,7 +323,7 @@ function renderSituations(filter = '') {
   `).join('') || '<p>No matches. Try a different word.</p>';
 }
 
-function showSituation(id) {
+async function showSituation(id) {
   const s = situations.find(x => x.id === id);
   const list = document.getElementById('situation-list');
   const detail = document.getElementById('situation-detail');
@@ -291,8 +335,8 @@ function showSituation(id) {
       <h2>${s.title}</h2>
       <h3>Biblical Principles</h3>
       <p>${s.principles}</p>
-      <h3>Key Scriptures</h3>
-      ${s.scriptures.map(v => `<div class="verse">${v}</div>`).join('')}
+      <h3>Key Scriptures <small style="font-weight:normal;color:var(--muted);">(click to load ESV text)</small></h3>
+      <div id="scripture-container-${s.id}"></div>
       <h3>Sample Response Directions</h3>
       <ul>${s.responses.map(r => `<li>${r}</li>`).join('')}</ul>
       <h3>Suggested Next Step</h3>
@@ -300,6 +344,18 @@ function showSituation(id) {
       <div class="note">These are directions, not scripts. Test everything against Scripture. Pray. Listen. Point to Christ.</div>
     </div>
   `;
+  const container = document.getElementById(`scripture-container-${s.id}`);
+  for (const ref of s.scriptures) {
+    const el = document.createElement('div');
+    el.className = 'verse';
+    el.innerHTML = `<strong>${ref}</strong> <span style="font-size:0.85rem;color:var(--gold);">→ click to load</span>`;
+    el.onclick = async () => {
+      el.innerHTML = `<strong>${ref}</strong><div class="verse-text">Loading…</div>`;
+      const text = await fetchESV(ref);
+      el.innerHTML = `<strong>${ref}</strong><div class="verse-text">${text}</div>`;
+    };
+    container.appendChild(el);
+  }
 }
 
 function filterSituations() {
