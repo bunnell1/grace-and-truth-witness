@@ -7,6 +7,7 @@
 <meta name="description" content="A preparation aid for believers to share their faith. Search situations and things people say. Scripture, sample responses, prayer, and practical tools. Used alongside the Bible, prayer, and the local church.">
 <link rel="canonical" href="https://bunnell1.github.io/grace-and-truth-witness/">
 <meta name="robots" content="index, follow">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
   --bg: #F7F3EC;
@@ -189,6 +190,10 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 </main>
 
 <script>
+const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
 const verseCache = {};
 
