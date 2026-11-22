@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grace & Truth Witness | Sharing the Gospel</title>
+<meta name="description" content="A preparation aid for believers to share their faith. Search situations and things people say. Scripture, sample responses, prayer, and practical tools. Used alongside the Bible, prayer, and the local church.">
+<link rel="canonical" href="https://graceandtruthwitness.com/">
+<meta name="robots" content="index, follow">
+<style>
+:root {
+  --bg: #F7F3EC;
+  --surface: #FFFcf8;
+  --text: #1C1C1C;
+  --muted: #6B6560;
+  --accent: #1F4D3A;
+  --accent-deep: #16382B;
+  --accent-light: #E7F0EA;
+  --gold: #B08D57;
+  --gold-soft: #F6F1E6;
+  --border: #E4DDD2;
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(31, 77, 58, 0.05);
+  --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+}
+html[data-theme="dark"] {
+  --bg: #141816;
+  --surface: #1E2420;
+  --text: #F3EFE7;
+  --muted: #B7AFA4;
+  --accent: #D7C4A3;
+  --accent-deep: #E8D9BE;
+  --accent-light: #2A3830;
+  --gold: #D4B483;
+  --gold-soft: #2C2822;
+  --border: #33403A;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 500px at 50% -180px, rgba(176,141,87,0.16), transparent 60%), var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+}
+h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; color: var(--accent); }
+a { color: var(--accent); }
+.hidden { display: none !important; }
+header { position: sticky; top: 0; z-index: 20; background: rgba(247,243,236,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.header-inner { max-width: 1120px; margin: 0 auto; padding: 0.7rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: inherit; }
+.brand-name { font-family: var(--font-serif); font-size: 1.15rem; color: var(--accent); }
+.brand-sub { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+nav button { background: none; border: none; font-family: inherit; font-size: 0.9rem; color: var(--muted); padding: 0.45rem 0.6rem; cursor: pointer; border-radius: 8px; }
+nav button:hover, nav button.active { color: var(--accent); }
+main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
+.hero { text-align: center; padding: 1.2rem 0 1.6rem; }
+.hero h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: 0.2rem 0 0.55rem; }
+.tagline { font-size: 1.12rem; color: var(--muted); margin: 0 auto 1.4rem; max-width: 34rem; }
+.btn { background: var(--accent); color: white; border: none; padding: 0.72rem 1.15rem; border-radius: 999px; cursor: pointer; font-family: inherit; font-size: 0.95rem; }
+.btn:hover { background: var(--accent-deep); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1.55rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
+.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin: 0.2rem 0 1.2rem; }
+.feature { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.35rem 1.15rem; text-align: center; cursor: pointer; }
+.feature:hover { border-color: var(--gold); }
+.search-box { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; margin: 0.5rem 0 1rem; background: var(--surface); color: var(--text); }
+.situation-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 0.6rem; cursor: pointer; }
+.situation-item:hover { border-color: var(--gold); }
+.verse { background: var(--accent-light); border-left: 3px solid var(--gold); padding: 0.85rem 1.05rem; margin: 1rem 0; font-style: italic; }
+.note { background: var(--gold-soft); border-left: 3px solid var(--gold); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; }
+@media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="#" class="brand" onclick="show('home'); return false;">
+      <div>
+        <span class="brand-name">Grace & Truth Witness</span>
+        <span class="brand-sub">Share the Gospel</span>
+      </div>
+    </a>
+    <nav>
+      <button onclick="show('home')">Home</button>
+      <button onclick="show('situations')">Situations</button>
+      <button onclick="show('modules')">Growth</button>
+      <button onclick="show('toolkit')">Toolkit</button>
+      <button onclick="show('about')">About</button>
+    </nav>
+  </div>
+</header>
+
+<main id="app">
+  <section id="home">
+    <div class="hero">
+      <h2>Grace & Truth Witness</h2>
+      <div class="tagline">Biblical wisdom. Practical tools. Spirit-led conversations.<br>Equipping you to share Christ with grace and truth.</div>
+      <div class="btn-row">
+        <button class="btn" onclick="show('situations')">Find a Situation</button>
+        <button class="btn" onclick="show('modules')">Growth Modules</button>
+      </div>
+    </div>
+    <div class="feature-grid">
+      <div class="feature" onclick="show('situations')">
+        <h3>Situations</h3>
+        <p>Search what people say. Biblical principles, Scripture, and sample response directions.</p>
+      </div>
+      <div class="feature" onclick="show('modules')">
+        <h3>Growth Modules</h3>
+        <p>Listening well, gospel clarity, handling rejection, sovereignty and responsibility.</p>
+      </div>
+      <div class="feature" onclick="show('toolkit')">
+        <h3>Toolkit</h3>
+        <p>Gospel outline, conversation notes, prayer list, and follow-up checklist. Print or save.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>How to use this</h3>
+      <p>Start by searching a situation or something a person said. Review the biblical principles and sample directions. Pray. Then speak with love and clarity. Everything here is meant to be tested against Scripture and used alongside the local church and prayer.</p>
+    </div>
+  </section>
+
+  <section id="situations" class="hidden">
+    <h2>Situations & Things People Say</h2>
+    <input type="text" id="search" class="search-box" placeholder="Describe what they said or the situation…" oninput="filterSituations()">
+    <div id="situation-list"></div>
+    <div id="situation-detail" class="hidden"></div>
+  </section>
+
+  <section id="modules" class="hidden">
+    <h2>Growth Modules</h2>
+    <div id="module-list"></div>
+    <div id="module-detail" class="hidden"></div>
+  </section>
+
+  <section id="toolkit" class="hidden">
+    <h2>Witness Toolkit</h2>
+    <div class="card">
+      <h3>Simple Gospel Outline</h3>
+      <ol>
+        <li>God is holy and we are not (Romans 3:23).</li>
+        <li>The wages of sin is death (Romans 6:23).</li>
+        <li>Christ died for our sins and rose again (1 Corinthians 15:3-4).</li>
+        <li>We must repent and believe (Mark 1:15; John 3:16).</li>
+      </ol>
+      <p class="note">This is a starting point. Always open the Bible with the person when possible.</p>
+    </div>
+    <div class="card">
+      <h3>Conversation Notes</h3>
+      <textarea id="notes" class="search-box" rows="6" placeholder="What did they say? What did you hear? Any follow-up?"></textarea>
+      <p><small>Notes stay on this device. They are not uploaded.</small></p>
+    </div>
+  </section>
+
+  <section id="about" class="hidden">
+    <h2>About</h2>
+    <div class="card">
+      <p>Grace & Truth Witness is a preparation aid for believers who want to share Christ faithfully in ordinary conversations. It is meant to be used with Scripture open, alongside prayer and the local church.</p>
+      <h3>Statement of Convictions</h3>
+      <ul>
+        <li>The gospel is the power of God for salvation (Romans 1:16).</li>
+        <li>The Bible is sufficient. We do not need secular techniques to share Christ.</li>
+        <li>Salvation is of the Lord. We sow the seed; the Spirit gives the increase.</li>
+        <li>Speak the truth in love. Grace and truth together honor Christ.</li>
+        <li>The local church is the place of ongoing care and follow-up.</li>
+      </ul>
+      <h3>What this site is for</h3>
+      <p>Helping a believer show up prepared: applicable Scripture, biblical principles, sample response directions, and care for the speaker’s own heart.</p>
+      <h3>What this site is not</h3>
+      <p>It is not a script, a guarantee of conversion, or a substitute for the Spirit, prayer, or the local church. Sample responses are direction, not lines to recite. Entered data stays on your device.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+const situations = [
+  {
+    id: "good-person",
+    title: "I'm a good person",
+    tags: ["works", "self-righteous", "common"],
+    principles: "People naturally measure themselves by other people or by their own intentions. Scripture measures us by God's holy standard. No one is righteous by works.",
+    scriptures: ["Romans 3:10-12", "Romans 3:23", "Isaiah 64:6", "Ephesians 2:8-9"],
+    responses: [
+      "I understand. Most of us think of ourselves as reasonably good. Can I ask—good compared to what? Compared to other people, or compared to God's perfect standard?",
+      "The Bible says none of us meets that standard. That's why we need a Savior, not just a better version of ourselves."
+    ],
+    next: "Offer to read Romans 3 together. Pray for them."
+  },
+  {
+    id: "all-religions",
+    title: "All religions lead to God",
+    tags: ["pluralism", "tolerance", "common"],
+    principles: "Jesus claimed exclusivity. Truth is not determined by sincerity. Different religions make contradictory claims about God, sin, and salvation.",
+    scriptures: ["John 14:6", "Acts 4:12", "1 Timothy 2:5"],
+    responses: [
+      "I appreciate that you want to be open. Can I ask a honest question? If two religions contradict each other on whether Jesus is God or just a teacher, can they both be true?",
+      "Jesus said He is the way, the truth, and the life. That claim is either true or it isn't. I'd love to look at what He actually said."
+    ],
+    next: "Point to John 14:6. Invite them to examine the claims of Christ."
+  },
+  {
+    id: "bible-contradictions",
+    title: "The Bible is full of contradictions",
+    tags: ["apologetics", "scripture", "common"],
+    principles: "Apparent difficulties exist, but the Bible has been examined carefully for centuries. Many supposed contradictions dissolve with context, genre, or careful reading.",
+    scriptures: ["2 Timothy 3:16", "Psalm 119:160", "John 17:17"],
+    responses: [
+      "That's a common concern. Would you be open to looking at one specific example together? I'd rather examine a real passage than stay at the level of a general claim.",
+      "I believe the Bible is trustworthy. If there's a particular passage that bothers you, I'd be glad to look at it with you."
+    ],
+    next: "Ask for a specific example. Recommend a trusted resource on Bible reliability."
+  },
+  {
+    id: "suffering",
+    title: "If God is good, why is there so much suffering?",
+    tags: ["theodicy", "pain", "common"],
+    principles: "Suffering is real and painful. The Bible does not minimize it. It points to a God who entered suffering in Christ and who will one day make all things new.",
+    scriptures: ["Romans 8:18-23", "John 11:35", "Revelation 21:4", "Isaiah 53"],
+    responses: [
+      "That's a hard question, and I don't want to give a quick answer. The Bible takes suffering seriously—Jesus wept. It also says God is working even in the middle of pain.",
+      "Would you be open to looking at what the Bible says about why the world is broken and what God has done about it?"
+    ],
+    next: "Listen first. Point to the cross. Offer to read Romans 8 or John 11."
+  }
+];
+
+const modules = [
+  {
+    id: "listening",
+    title: "Listening Well Before You Speak",
+    summary: "Most conversations go better when we understand what the person is actually saying before we respond.",
+    content: "James 1:19: Be quick to hear, slow to speak. Ask clarifying questions. Reflect back what you heard. This honors the person and often opens the door for a clearer gospel conversation."
+  },
+  {
+    id: "gospel-clarity",
+    title: "Explaining the Gospel Simply",
+    summary: "A clear gospel is better than a long one. Sin, judgment, Christ's finished work, and the call to repent and believe.",
+    content: "Practice saying the gospel in a few sentences. Use Scripture. Avoid Christian jargon when possible. Invite questions."
+  },
+  {
+    id: "rejection",
+    title: "Handling Rejection",
+    summary: "Not everyone will receive the message. Our job is faithful sowing.",
+    content: "Jesus was rejected. The apostles were rejected. Rejection does not mean you failed. Pray for the person and keep loving them."
+  },
+  {
+    id: "sovereignty",
+    title: "Sovereignty and Human Responsibility",
+    summary: "God is sovereign in salvation, and we are still commanded to proclaim the gospel to all.",
+    content: "We do not know who the elect are. We freely offer Christ to everyone. The results belong to God."
+  }
+];
+
+function show(section) {
+  document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+  document.getElementById(section).classList.remove('hidden');
+  if (section === 'situations') renderSituations();
+  if (section === 'modules') renderModules();
+  window.scrollTo(0,0);
+}
+
+function renderSituations(filter = '') {
+  const list = document.getElementById('situation-list');
+  const detail = document.getElementById('situation-detail');
+  detail.classList.add('hidden');
+  list.classList.remove('hidden');
+  const filtered = situations.filter(s => 
+    s.title.toLowerCase().includes(filter.toLowerCase()) ||
+    s.tags.some(t => t.includes(filter.toLowerCase())) ||
+    s.principles.toLowerCase().includes(filter.toLowerCase())
+  );
+  list.innerHTML = filtered.map(s => `
+    <div class="situation-item" onclick="showSituation('${s.id}')">
+      <strong>${s.title}</strong>
+      <div style="color:var(--muted);font-size:0.9rem;margin-top:0.2rem;">${s.tags.join(' · ')}</div>
+    </div>
+  `).join('') || '<p>No matches. Try a different word.</p>';
+}
+
+function showSituation(id) {
+  const s = situations.find(x => x.id === id);
+  const list = document.getElementById('situation-list');
+  const detail = document.getElementById('situation-detail');
+  list.classList.add('hidden');
+  detail.classList.remove('hidden');
+  detail.innerHTML = `
+    <button class="btn" onclick="renderSituations(document.getElementById('search').value)" style="margin-bottom:1rem;">← Back to list</button>
+    <div class="card">
+      <h2>${s.title}</h2>
+      <h3>Biblical Principles</h3>
+      <p>${s.principles}</p>
+      <h3>Key Scriptures</h3>
+      ${s.scriptures.map(v => `<div class="verse">${v}</div>`).join('')}
+      <h3>Sample Response Directions</h3>
+      <ul>${s.responses.map(r => `<li>${r}</li>`).join('')}</ul>
+      <h3>Suggested Next Step</h3>
+      <p>${s.next}</p>
+      <div class="note">These are directions, not scripts. Test everything against Scripture. Pray. Listen. Point to Christ.</div>
+    </div>
+  `;
+}
+
+function filterSituations() {
+  const q = document.getElementById('search').value;
+  renderSituations(q);
+}
+
+function renderModules() {
+  const list = document.getElementById('module-list');
+  list.innerHTML = modules.map(m => `
+    <div class="situation-item" onclick="showModule('${m.id}')">
+      <strong>${m.title}</strong>
+      <div style="color:var(--muted);font-size:0.9rem;margin-top:0.2rem;">${m.summary}</div>
+    </div>
+  `).join('');
+}
+
+function showModule(id) {
+  const m = modules.find(x => x.id === id);
+  document.getElementById('module-list').classList.add('hidden');
+  const detail = document.getElementById('module-detail');
+  detail.classList.remove('hidden');
+  detail.innerHTML = `
+    <button class="btn" onclick="document.getElementById('module-list').classList.remove('hidden'); document.getElementById('module-detail').classList.add('hidden');" style="margin-bottom:1rem;">← Back</button>
+    <div class="card">
+      <h2>${m.title}</h2>
+      <p>${m.content}</p>
+    </div>
+  `;
+}
+
+show('home');
+</script>
+</body>
+</html>
