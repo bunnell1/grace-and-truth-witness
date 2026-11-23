@@ -1,7 +1,8 @@
 {
   "name": "Grace & Truth Witness",
   "short_name": "GT Witness",
-  "start_url": "/",
+  "start_url": "/grace-and-truth-witness/",
+  "scope": "/grace-and-truth-witness/",
   "display": "standalone",
   "background_color": "#F7F3EC",
   "theme_color": "#1F4D3A",
