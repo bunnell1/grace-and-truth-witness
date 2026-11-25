@@ -33,19 +33,71 @@
   <h1>Growth Modules</h1>
   <p class="note">Listening well, gospel clarity, handling rejection, sovereignty and responsibility.</p>
   <div id="module-list"></div>
+  <div id="module-detail" class="hidden card"></div>
 </main>
 <footer>
   <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a>
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
 <script>
-const list = document.getElementById('module-list');
-(modules || []).forEach(m => {
-  const div = document.createElement('div');
-  div.className = 'situation-item';
-  div.innerHTML = `<strong>${m.title}</strong><p>${m.summary || ''}</p>`;
-  list.appendChild(div);
-});
+function renderModules() {
+  const list = document.getElementById('module-list');
+  list.innerHTML = '';
+  (modules || []).forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'situation-item';
+    div.innerHTML = `<strong>${m.title}</strong><p>${m.summary || ''}</p>`;
+    div.onclick = () => showModule(m);
+    list.appendChild(div);
+  });
+}
+
+function showModule(m) {
+  const detail = document.getElementById('module-detail');
+  const notesKey = 'mod-notes-' + m.id;
+  const saved = localStorage.getItem(notesKey) || '';
+  let scriptures = '';
+  if (m.scriptures && m.scriptures.length) {
+    scriptures = '<h3>Scriptures</h3><ul>' + m.scriptures.map(s => `<li>${s}</li>`).join('') + '</ul>';
+  }
+  let reading = '';
+  if (m.furtherReading && m.furtherReading.length) {
+    reading = '<h3>For Further Reading</h3><ul>' + m.furtherReading.map(b => `<li><a href="${b.url}" target="_blank" rel="noopener">${b.title}</a></li>`).join('') + '</ul>';
+  }
+  detail.innerHTML = `
+    <h2>${m.title}</h2>
+    <p>${m.summary || ''}</p>
+    <p>${m.content || ''}</p>
+    ${scriptures}
+    ${reading}
+    <h3>Your Notes</h3>
+    <textarea class="notes-area" id="mod-notes" placeholder="Notes stay on this device">${saved}</textarea>
+    <div class="icon-row">
+      <button class="icon-btn" title="Back" onclick="hideDetail()">←</button>
+      <button class="icon-btn" title="Save" onclick="saveNotes('${notesKey}')">✓</button>
+      <button class="icon-btn" title="Clear" onclick="if(confirm('Clear notes?')) clearNotes('${notesKey}')">✕</button>
+    </div>
+  `;
+  detail.classList.remove('hidden');
+  document.getElementById('module-list').classList.add('hidden');
+}
+
+function hideDetail() {
+  document.getElementById('module-detail').classList.add('hidden');
+  document.getElementById('module-list').classList.remove('hidden');
+}
+
+function saveNotes(key) {
+  localStorage.setItem(key, document.getElementById('mod-notes').value);
+  alert('Saved');
+}
+function clearNotes(key) {
+  document.getElementById('mod-notes').value = '';
+  localStorage.removeItem(key);
+}
+
+renderModules();
+
 (function () {
   function icon() {
     var el = document.getElementById('theme-icon');
