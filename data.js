@@ -106,6 +106,60 @@ const situations = [
     scriptures: ["John 3:3", "Matthew 7:21-23"],
     responses: ["What did you hear growing up? Sometimes people grow up around church without ever hearing the gospel clearly."],
     furtherReading: [{ title: "The Prodigal God by Timothy Keller", url: "https://www.amazon.com/Prodigal-God-Recovering-Heart-Christian-ebook/dp/B0017SYNZM" }]
+  },
+  {
+    id: "why-jesus",
+    title: "Why Jesus and not other religious figures?",
+    behind: "A desire to treat all religious leaders as equal, or uncertainty about what makes Jesus unique.",
+    principles: "Jesus claimed to be God and rose from the dead. Other religious figures did not. The gospel stands or falls on who Jesus is.",
+    scriptures: ["John 14:6", "1 Corinthians 15:3-4", "Acts 4:12"],
+    responses: ["What do you think is unique about Jesus? He claimed to be God and rose from the dead. That's different from other religious leaders."],
+    furtherReading: [{ title: "Jesus Among Other Gods by Ravi Zacharias", url: "https://www.amazon.com/Jesus-Among-Other-Gods-Provocative/dp/0849943272" }]
+  },
+  {
+    id: "no-church",
+    title: "I don't need church; I can just believe on my own",
+    behind: "A desire for personal faith without accountability, or bad experiences with church.",
+    principles: "The New Testament assumes believers are part of a local church. Faith is personal, but it is not private.",
+    scriptures: ["Hebrews 10:24-25", "Acts 2:42", "Ephesians 4:11-16"],
+    responses: ["The Bible talks about believers gathering together. Is there a reason church has been hard for you?"],
+    furtherReading: [{ title: "Church Membership by Jonathan Leeman", url: "https://www.amazon.com/Church-Membership-Represents-Building-Churches-ebook/dp/B007RPROLO" }]
+  },
+  {
+    id: "crusades",
+    title: "What about the Crusades / the church's bad history?",
+    behind: "A way to dismiss Christianity because of the failures of people who claimed it.",
+    principles: "The failures of Christians do not change the truth of the gospel or the character of Christ. The church is made of sinners.",
+    scriptures: ["Romans 3:23", "1 John 1:8-9"],
+    responses: ["The church has done wrong things. So have I. The question is still whether Jesus is who He claimed to be."],
+    furtherReading: [{ title: "The Case for Christ by Lee Strobel", url: "https://www.amazon.com/Case-Christ-Journalist-Personal-Investigation/dp/0310345863" }]
+  },
+  {
+    id: "evolution",
+    title: "Evolution proves the Bible is wrong",
+    behind: "A common assumption that science and the Bible are in conflict, often without careful study of either.",
+    principles: "The Bible is not a science textbook. It tells us who made the world and why. Many Christians hold different views on the details of origins.",
+    scriptures: ["Genesis 1:1", "Psalm 19:1", "Colossians 1:16"],
+    responses: ["What part of evolution do you think conflicts with the Bible? The main claim of Genesis is that God made the world."],
+    furtherReading: [{ title: "The Case for a Creator by Lee Strobel", url: "https://www.amazon.com/Case-Creator-Journalist-Investigates-Scientific/dp/0310241448" }]
+  },
+  {
+    id: "trinity",
+    title: "The Trinity doesn't make sense",
+    behind: "Difficulty with the doctrine of one God in three persons, or a desire for a simpler view of God.",
+    principles: "The Trinity is how God has revealed Himself. It is not a human invention. We accept it because Scripture teaches it.",
+    scriptures: ["Matthew 28:19", "John 1:1", "2 Corinthians 13:14"],
+    responses: ["It is hard to grasp. The Bible presents one God who is Father, Son, and Spirit. What part is hardest for you?"],
+    furtherReading: [{ title: "Delighting in the Trinity by Michael Reeves", url: "https://www.amazon.com/Delighting-Trinity-Introduction-Christian-Faith/dp/0830839836" }]
+  },
+  {
+    id: "lgbtq",
+    title: "I'm gay / LGBTQ+ and God made me this way",
+    behind: "A desire for affirmation, or the belief that desire equals identity and design.",
+    principles: "Scripture teaches that sexual intimacy is for marriage between a man and a woman. Desire does not define us. The gospel offers forgiveness and a new identity in Christ.",
+    scriptures: ["Genesis 1:27", "1 Corinthians 6:9-11", "Romans 1:26-27"],
+    responses: ["This is a hard topic. The Bible speaks clearly about sexuality, and it also speaks clearly about forgiveness and new life in Christ. Can we look at what it says?"],
+    furtherReading: [{ title: "Is God Anti-Gay? by Sam Allberry", url: "https://www.amazon.com/God-Anti-Gay-Questions-Christians-ebook/dp/B00B7J0W3A" }]
   }
 ];
 
