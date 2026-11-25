@@ -6,6 +6,7 @@
 <title>Situations | Grace & Truth Witness</title>
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <header>
@@ -30,13 +31,43 @@
 <main>
   <h1>Situations & Things People Say</h1>
   <p class="note">Search by what people say. Applicable Scripture, biblical principles, and sample response directions.</p>
-  <input type="text" id="search" class="search-box" placeholder="Describe what they said or the situation…">
-  <button class="btn">Find</button>
+  <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;">
+    <input type="text" id="search" class="search-box" placeholder="Describe what they said or the situation…" style="margin:0;flex:1;">
+    <button class="btn" onclick="doSearch()">Find</button>
+  </div>
   <div id="situation-list"></div>
+  <div id="situation-detail" class="hidden card"></div>
 </main>
 <footer>
   <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a>
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
+<script>
+const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Placeholder situations - full data will be loaded from app.js
+const situations = [];
+
+function renderSituations(filter = '', aiIds = null) {
+  const list = document.getElementById('situation-list');
+  list.innerHTML = '<p class="note">Situations data is being restored. Search will connect to the Edge Function.</p>';
+}
+
+async function doSearch() {
+  const q = document.getElementById('search').value.trim();
+  if (!q) return;
+  const list = document.getElementById('situation-list');
+  list.innerHTML = '<p class="note">Searching…</p>';
+  try {
+    const { data, error } = await sb.functions.invoke('find', { body: { q, catalog: [] } });
+    if (error) throw error;
+    list.innerHTML = '<p class="note">Search connected. Results: ' + JSON.stringify(data) + '</p>';
+  } catch (e) {
+    list.innerHTML = '<p class="note">Search error: ' + e.message + '</p>';
+  }
+}
+</script>
 </body>
 </html>
