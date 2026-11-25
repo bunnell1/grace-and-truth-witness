@@ -114,48 +114,54 @@ const modules = [
     id: "listening",
     title: "Listening Well Before You Speak",
     summary: "Most people need to be heard before they will hear.",
-    content: "Ask questions before you answer. Reflect back what you heard. Look for the real concern underneath the words. Listening earns the right to speak and often surfaces the deeper issue.",
+    content: "Ask questions before you answer. Reflect back what you heard. Look for the real concern underneath the words. Listening earns the right to speak and often surfaces the deeper issue. Practice asking one clarifying question before you share a verse or an answer.",
     scriptures: ["James 1:19", "Proverbs 18:13"],
+    homework: ["In your next conversation, ask two questions before you share any answer.", "Write down what you heard underneath the words and check it with the person."],
     furtherReading: [{ title: "Questioning Evangelism by Randy Newman", url: "https://www.amazon.com/dp/0825447801" }]
   },
   {
     id: "gospel-clarity",
     title: "Explaining the Gospel Simply",
     summary: "God, man, Christ, response.",
-    content: "God is holy. We are sinners. Christ died and rose for sinners. We must respond in repentance and faith. Keep it clear. Avoid jargon. Point to Jesus.",
+    content: "God is holy. We are sinners. Christ died and rose for sinners. We must respond in repentance and faith. Keep it clear. Avoid jargon. Point to Jesus. Practice saying the outline in under a minute.",
     scriptures: ["Romans 1:16", "1 Corinthians 15:3-4", "Acts 2:38"],
+    homework: ["Write the gospel in four short sentences (God, man, Christ, response).", "Share that outline with one person this week."],
     furtherReading: [{ title: "What Is the Gospel? by Greg Gilbert", url: "https://www.amazon.com/What-Gospel-9Marks-Greg-Gilbert/dp/1433515008" }, { title: "The Gospel and Personal Evangelism by Mark Dever", url: "https://www.amazon.com/Gospel-Personal-Evangelism-Foreword-Mahaney-ebook/dp/B0017JWL28" }]
   },
   {
     id: "rejection",
     title: "Handling Rejection",
     summary: "Rejection of the message is not rejection of you.",
-    content: "Jesus was rejected. The apostles were rejected. Your task is to speak faithfully. The result belongs to God. Do not take rejection personally, and do not stop speaking.",
+    content: "Jesus was rejected. The apostles were rejected. Your task is to speak faithfully. The result belongs to God. Do not take rejection personally, and do not stop speaking. Expect some people to say no.",
     scriptures: ["John 15:18", "2 Timothy 2:24-25"],
+    homework: ["Pray for one person who has rejected the gospel.", "Write down one way you can respond kindly the next time you hear no."],
     furtherReading: [{ title: "Honest Evangelism by Rico Tice", url: "https://www.amazon.com/Honest-Evangelism-Rico-Tice/dp/190991939X" }]
   },
   {
     id: "sovereignty",
     title: "Sovereign and Human Responsibility",
     summary: "God is sovereign in salvation; we are responsible to speak.",
-    content: "God chooses. We proclaim. Both are true. Our responsibility is to speak the gospel clearly and lovingly. God is responsible for the outcome.",
+    content: "God chooses. We proclaim. Both are true. Our responsibility is to speak the gospel clearly and lovingly. God is responsible for the outcome. Rest in His sovereignty while you speak.",
     scriptures: ["Acts 13:48", "Romans 10:14-15"],
+    homework: ["Read Acts 13:48 and Romans 10:14-15 side by side.", "Write a short prayer that trusts God with the result while asking for boldness to speak."],
     furtherReading: [{ title: "Evangelism and the Sovereignty of God by J.I. Packer", url: "https://www.amazon.com/dp/083083799X" }]
   },
   {
     id: "boldness",
     title: "Boldness in the Spirit",
     summary: "Boldness comes from the Spirit, not from personality.",
-    content: "Pray for boldness. The early church asked for it (Acts 4:29). Boldness is not aggression. It is clarity and courage given by the Spirit.",
+    content: "Pray for boldness. The early church asked for it (Acts 4:29). Boldness is not aggression. It is clarity and courage given by the Spirit. Ask for it before you speak.",
     scriptures: ["Acts 4:29-31", "Ephesians 6:19-20"],
+    homework: ["Pray Acts 4:29 each morning this week.", "Look for one opportunity to speak and take it."],
     furtherReading: [{ title: "When People Are Big and God Is Small by Edward Welch", url: "https://www.amazon.com/dp/1629958077" }]
   },
   {
     id: "family",
     title: "Sharing with Family",
     summary: "Family is often the hardest and most important place to speak.",
-    content: "Family members already know your flaws. Speak with humility. Live the gospel in front of them. Look for natural openings. Pray more than you speak.",
+    content: "Family members already know your flaws. Speak with humility. Live the gospel in front of them. Look for natural openings. Pray more than you speak. Consistency over time matters more than one big conversation.",
     scriptures: ["1 Peter 3:1-2", "Deuteronomy 6:6-7"],
+    homework: ["Pray daily for one family member.", "Look for one natural opening this week and speak briefly."],
     furtherReading: [{ title: "Leading Your Child to Christ", url: "https://www.amazon.com/dp/1938267842" }]
   }
 ];
