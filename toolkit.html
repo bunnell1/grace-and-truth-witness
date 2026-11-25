@@ -102,6 +102,12 @@ function clearTool(key) {
   localStorage.removeItem(key);
   hideDetail();
   renderToolkit();
+const params = new URLSearchParams(location.search);
+const openId = params.get('id');
+if (openId) {
+  const item = (toolkitItems || []).find(t => t.id === openId);
+  if (item) showTool(item);
+}
 }
 
 renderToolkit();
