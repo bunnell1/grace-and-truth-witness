@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
 </head>
 <body>
 <header>
@@ -43,51 +44,12 @@
       <li>Tap <strong>Add</strong>.</li>
     </ol>
   </div>
-  <div id="auth-panel" class="card hidden">
-    <h3>Sign in</h3>
-    <input type="email" id="auth-email" class="search-box" placeholder="Email">
-    <input type="password" id="auth-password" class="search-box" placeholder="Password">
-    <div class="btn-row">
-      <button class="btn" onclick="doSignIn()">Sign in</button>
-      <button class="btn" onclick="doSignUp()">Create account</button>
-    </div>
-    <p class="note" id="auth-msg"></p>
-  </div>
 </main>
 <footer>
   <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a>
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
 <script>
-const SUPABASE_URL = 'https://nvxtvwdvvzhbsvbpnlgz.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_U511agudgV1tcFiEIIGbFg_EPDltBn3';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-async function updateAuthUI() {
-  const { data: { user } } = await sb.auth.getUser();
-  const btn = document.getElementById('auth-btn');
-  if (user) {
-    btn.textContent = user.email.split('@')[0];
-    btn.onclick = async () => { await sb.auth.signOut(); location.reload(); };
-  } else {
-    btn.textContent = 'Sign in';
-    btn.onclick = () => document.getElementById('auth-panel').classList.toggle('hidden');
-  }
-}
-async function doSignIn() {
-  const email = document.getElementById('auth-email').value;
-  const password = document.getElementById('auth-password').value;
-  const { error } = await sb.auth.signInWithPassword({ email, password });
-  document.getElementById('auth-msg').textContent = error ? error.message : 'Signed in.';
-  if (!error) location.reload();
-}
-async function doSignUp() {
-  const email = document.getElementById('auth-email').value;
-  const password = document.getElementById('auth-password').value;
-  const { error } = await sb.auth.signUp({ email, password });
-  document.getElementById('auth-msg').textContent = error ? error.message : 'Check your email to confirm.';
-}
-updateAuthUI();
 (function () {
   function icon() {
     var el = document.getElementById('theme-icon');
