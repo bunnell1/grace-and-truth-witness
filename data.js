@@ -74,16 +74,86 @@ const situations = [
 ];
 
 const modules = [
-  { id: "listening", title: "Listening Well Before You Speak", summary: "Most people need to be heard before they will hear." },
-  { id: "gospel-clarity", title: "Explaining the Gospel Simply", summary: "God, man, Christ, response." },
-  { id: "rejection", title: "Handling Rejection", summary: "Rejection of the message is not rejection of you." },
-  { id: "sovereignty", title: "Sovereign and Human Responsibility", summary: "God is sovereign in salvation; we are responsible to speak." },
-  { id: "boldness", title: "Boldness in the Spirit", summary: "Boldness comes from the Spirit, not from personality." },
-  { id: "family", title: "Sharing with Family", summary: "Family is often the hardest and most important place to speak." }
+  {
+    id: "listening",
+    title: "Listening Well Before You Speak",
+    summary: "Most people need to be heard before they will hear.",
+    content: "Ask questions before you answer. Reflect back what you heard. Look for the real concern underneath the words. Listening earns the right to speak and often surfaces the deeper issue.",
+    scriptures: ["James 1:19", "Proverbs 18:13"],
+    furtherReading: [{ title: "Listening to People", url: "https://www.amazon.com/Listening-People-Practical-Counseling-Skills/dp/083082104X" }]
+  },
+  {
+    id: "gospel-clarity",
+    title: "Explaining the Gospel Simply",
+    summary: "God, man, Christ, response.",
+    content: "God is holy. We are sinners. Christ died and rose for sinners. We must respond in repentance and faith. Keep it clear. Avoid jargon. Point to Jesus.",
+    scriptures: ["Romans 1:16", "1 Corinthians 15:3-4", "Acts 2:38"],
+    furtherReading: [{ title: "What Is the Gospel? by Greg Gilbert", url: "https://www.amazon.com/What-Gospel-9Marks-Greg-Gilbert/dp/1433515008" }]
+  },
+  {
+    id: "rejection",
+    title: "Handling Rejection",
+    summary: "Rejection of the message is not rejection of you.",
+    content: "Jesus was rejected. The apostles were rejected. Your task is to speak faithfully. The result belongs to God. Do not take rejection personally, and do not stop speaking.",
+    scriptures: ["John 15:18", "2 Timothy 2:24-25"],
+    furtherReading: [{ title: "Honest Evangelism by Rico Tice", url: "https://www.amazon.com/Honest-Evangelism-Rico-Tice/dp/190991939X" }]
+  },
+  {
+    id: "sovereignty",
+    title: "Sovereign and Human Responsibility",
+    summary: "God is sovereign in salvation; we are responsible to speak.",
+    content: "God chooses. We proclaim. Both are true. Our responsibility is to speak the gospel clearly and lovingly. God is responsible for the outcome.",
+    scriptures: ["Acts 13:48", "Romans 10:14-15"],
+    furtherReading: [{ title: "Evangelism and the Sovereignty of God by J.I. Packer", url: "https://www.amazon.com/dp/083083799X" }]
+  },
+  {
+    id: "boldness",
+    title: "Boldness in the Spirit",
+    summary: "Boldness comes from the Spirit, not from personality.",
+    content: "Pray for boldness. The early church asked for it (Acts 4:29). Boldness is not aggression. It is clarity and courage given by the Spirit.",
+    scriptures: ["Acts 4:29-31", "Ephesians 6:19-20"],
+    furtherReading: [{ title: "When People Are Big and God Is Small by Edward Welch", url: "https://www.amazon.com/dp/1629958077" }]
+  },
+  {
+    id: "family",
+    title: "Sharing with Family",
+    summary: "Family is often the hardest and most important place to speak.",
+    content: "Family members already know your flaws. Speak with humility. Live the gospel in front of them. Look for natural openings. Pray more than you speak.",
+    scriptures: ["1 Peter 3:1-2", "Deuteronomy 6:6-7"],
+    furtherReading: [{ title: "Leading Your Child to Christ", url: "https://www.amazon.com/dp/1938267842" }]
+  }
 ];
 
 const toolkitItems = [
-  { id: "conversation-prep", title: "Conversation Prep Notes", summary: "What they said, what you heard, Scriptures to open, and a next step." },
-  { id: "follow-up", title: "Follow-up Notes", summary: "What was said, what you offered, and a next step." },
-  { id: "prayer-list", title: "Prayer List", summary: "People you are praying for and what you are asking." }
+  {
+    id: "conversation-prep",
+    title: "Conversation Prep Notes",
+    summary: "What they said, what you heard, Scriptures to open, and a next step.",
+    form: [
+      { label: "What they said", id: "said", type: "textarea" },
+      { label: "What I heard underneath", id: "heard", type: "textarea" },
+      { label: "Scriptures to open", id: "scriptures", type: "text" },
+      { label: "Next step", id: "next", type: "text" }
+    ]
+  },
+  {
+    id: "follow-up",
+    title: "Follow-up Notes",
+    summary: "What was said, what you offered, and a next step.",
+    form: [
+      { label: "What was said", id: "said", type: "textarea" },
+      { label: "What I offered", id: "offered", type: "textarea" },
+      { label: "Follow-up plan", id: "plan", type: "text" }
+    ]
+  },
+  {
+    id: "prayer-list",
+    title: "Prayer List",
+    summary: "People you are praying for and what you are asking.",
+    form: [
+      { label: "Name", id: "name", type: "text" },
+      { label: "What I am asking", id: "asking", type: "textarea" },
+      { label: "Date", id: "date", type: "text" }
+    ]
+  }
 ];
