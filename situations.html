@@ -73,9 +73,25 @@ function showSituation(item) {
   const detail = document.getElementById('situation-detail');
   const notesKey = 'sit-notes-' + item.id;
   const saved = localStorage.getItem(notesKey) || '';
+  let scriptures = '';
+  if (item.scriptures && item.scriptures.length) {
+    scriptures = '<h3>Key Scriptures</h3><ul>' + item.scriptures.map(s => `<li>${s}</li>`).join('') + '</ul>';
+  }
+  let responses = '';
+  if (item.responses && item.responses.length) {
+    responses = '<h3>Sample Response Directions</h3><ul>' + item.responses.map(r => `<li>${r}</li>`).join('') + '</ul>';
+  }
+  let reading = '';
+  if (item.furtherReading && item.furtherReading.length) {
+    reading = '<h3>For Further Reading</h3><ul>' + item.furtherReading.map(b => `<li><a href="${b.url}" target="_blank" rel="noopener">${b.title}</a></li>`).join('') + '</ul>';
+  }
   detail.innerHTML = `
     <h2>${item.title}</h2>
+    <h3>Biblical Principles</h3>
     <p>${item.principles || ''}</p>
+    ${scriptures}
+    ${responses}
+    ${reading}
     <h3>Your Notes</h3>
     <textarea class="notes-area" id="sit-notes" placeholder="Notes stay on this device">${saved}</textarea>
     <div class="icon-row">
