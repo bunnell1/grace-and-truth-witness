@@ -122,3 +122,11 @@ footer a { color: var(--accent); margin: 0 0.4rem; }
   .header-inner { flex-wrap: wrap; }
   nav a span { display: none; }
 }
+@media print {
+  header, nav, footer, .icon-row, .theme-toggle, .icon-btn, .btn, #auth-btn, #theme-toggle {
+    display: none !important;
+  }
+  body { background: #fff; color: #1c1c1c; }
+  main { max-width: none; padding: 0; }
+  .card { box-shadow: none; border: 1px solid #ddd; }
+}
