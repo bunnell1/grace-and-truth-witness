@@ -166,12 +166,7 @@ async function doSearch() {
   hideDetail();
   const q = document.getElementById('search').value.trim();
   if (!q) { setStatus(''); renderSituations();
-const params = new URLSearchParams(location.search);
-const openId = params.get('id');
-if (openId) {
-  const item = (situations || []).find(s => s.id === openId);
-  if (item) showSituation(item);
-} return; }
+ return; }
   setStatus('Searching…');
   const list = document.getElementById('situation-list');
   list.innerHTML = '';
@@ -270,6 +265,13 @@ renderSituations();
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
   else bind();
 })();
+
+const params = new URLSearchParams(location.search);
+const openId = params.get('id');
+if (openId) {
+  const item = (situations || []).find(s => s.id === openId);
+  if (item) showSituation(item);
+}
 </script>
 </body>
 </html>
