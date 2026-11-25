@@ -165,7 +165,13 @@ function clearNotes(key) {
 async function doSearch() {
   hideDetail();
   const q = document.getElementById('search').value.trim();
-  if (!q) { setStatus(''); renderSituations(); return; }
+  if (!q) { setStatus(''); renderSituations();
+const params = new URLSearchParams(location.search);
+const openId = params.get('id');
+if (openId) {
+  const item = (situations || []).find(s => s.id === openId);
+  if (item) showSituation(item);
+} return; }
   setStatus('Searching…');
   const list = document.getElementById('situation-list');
   list.innerHTML = '';
