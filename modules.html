@@ -6,6 +6,7 @@
 <title>Growth Modules | Grace & Truth Witness</title>
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="styles.css">
+<script src="data.js"></script>
 </head>
 <body>
 <header>
@@ -36,5 +37,14 @@
   <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a>
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
+<script>
+const list = document.getElementById('module-list');
+(modules || []).forEach(m => {
+  const div = document.createElement('div');
+  div.className = 'situation-item';
+  div.innerHTML = `<strong>${m.title}</strong><p>${m.summary || ''}</p>`;
+  list.appendChild(div);
+});
+</script>
 </body>
 </html>
