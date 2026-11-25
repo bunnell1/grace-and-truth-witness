@@ -91,7 +91,7 @@ async function doHomeSearch() {
     el.innerHTML = matches.map(m => {
       const page = pageFor(m.type);
       const label = m.type === 'situation' ? 'Situation' : m.type === 'module' ? 'Growth' : 'Toolkit';
-      return `<div class="situation-item"><strong><a href="${page}">${m.title}</a></strong><p>${label} · ${m.why || ''}</p></div>`;
+      return `<div class="situation-item"><strong><a href="${page}?id=${m.id}">${m.title}</a></strong><p>${label} · ${m.why || ''}</p></div>`;
     }).join('');
   } catch (e) {
     el.innerHTML = 'Could not search.';
