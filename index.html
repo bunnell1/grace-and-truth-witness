@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js"></script>
+<script src="data.js"></script>
 </head>
 <body>
 <header>
@@ -40,6 +41,12 @@
       <a class="btn" href="scripture.html">Look up a Verse</a>
     </div>
   </div>
+  <div class="card">
+    <h3>Find a situation, module, or tool</h3>
+    <input type="text" id="home-search" class="search-box" placeholder="What they said, a topic, or a tool…">
+    <button class="btn" onclick="doHomeSearch()">Find</button>
+    <div id="home-results" style="margin-top:1rem;"></div>
+  </div>
   <div class="feature-grid">
     <a class="feature" href="situations.html"><h3>Situations</h3><p>Search what people say. Biblical principles, Scripture, and sample response directions.</p></a>
     <a class="feature" href="modules.html"><h3>Growth Modules</h3><p>Listening well, gospel clarity, handling rejection, sovereignty and responsibility.</p></a>
@@ -55,6 +62,41 @@
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
 <script>
+function pageFor(type) {
+  if (type === 'situation' || type === 'issue') return 'situations.html';
+  if (type === 'module') return 'modules.html';
+  if (type === 'toolkit') return 'toolkit.html';
+  return 'index.html';
+}
+async function doHomeSearch() {
+  const q = document.getElementById('home-search').value.trim();
+  if (!q) return;
+  const el = document.getElementById('home-results');
+  el.innerHTML = 'Searching…';
+  const catalog = [];
+  (situations || []).forEach(s => catalog.push({ type: 'situation', id: s.id, title: s.title, summary: s.behind || s.principles || '' }));
+  (modules || []).forEach(m => catalog.push({ type: 'module', id: m.id, title: m.title, summary: m.summary || '' }));
+  (toolkitItems || []).forEach(t => catalog.push({ type: 'toolkit', id: t.id, title: t.title, summary: t.summary || '' }));
+  try {
+    const { data, error } = await sb.functions.invoke('find', { body: { q, catalog } });
+    if (error) {
+      el.innerHTML = 'Could not search.';
+      return;
+    }
+    const matches = (data && data.matches) || [];
+    if (!matches.length) {
+      el.innerHTML = 'No matches. Try different words.';
+      return;
+    }
+    el.innerHTML = matches.map(m => {
+      const page = pageFor(m.type);
+      const label = m.type === 'situation' ? 'Situation' : m.type === 'module' ? 'Growth' : 'Toolkit';
+      return `<div class="situation-item"><strong><a href="${page}">${m.title}</a></strong><p>${label} · ${m.why || ''}</p></div>`;
+    }).join('');
+  } catch (e) {
+    el.innerHTML = 'Could not search.';
+  }
+}
 (function () {
   function icon() {
     var el = document.getElementById('theme-icon');
