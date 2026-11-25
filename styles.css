@@ -66,9 +66,32 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 .feature { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.35rem 1.15rem; text-align: center; text-decoration: none; color: inherit; display: block; }
 .feature:hover { border-color: var(--gold); }
 .note { background: var(--gold-soft); border-left: 3px solid var(--gold); padding: 0.8rem 1rem; border-radius: 0 10px 10px 0; }
-.situation-item, .module-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0.95rem 1rem; margin-bottom: 0.6rem; cursor: pointer; }
-.situation-item:hover, .module-item:hover { border-color: var(--gold); }
+.situation-item, .module-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s ease;
+}
+.situation-item:hover, .module-item:hover {
+  border-color: var(--gold);
+  background: var(--hover);
+}
+.situation-item strong, .module-item strong {
+  display: block;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+.situation-item p, .module-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
 .search-box, .search { width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; background: var(--input-bg); color: var(--text); }
+.notes-area { width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; background: var(--input-bg); color: var(--text); min-height: 88px; }
 footer { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 1.5rem 1.25rem; }
 footer a { color: var(--accent); margin: 0 0.4rem; }
 @media (max-width: 700px) {
