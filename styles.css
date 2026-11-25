@@ -92,6 +92,29 @@ main { max-width: 980px; margin: 0 auto; padding: 2.2rem 1.25rem 4rem; }
 }
 .search-box, .search { width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; background: var(--input-bg); color: var(--text); }
 .notes-area { width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; background: var(--input-bg); color: var(--text); min-height: 88px; }
+.verse-ref { color: var(--accent); text-decoration: underline; cursor: pointer; }
+.verse-tip {
+  position: fixed;
+  z-index: 200;
+  max-width: 340px;
+  background: #FFFCF8;
+  color: #1C1C1C;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.16);
+  padding: .7rem .85rem;
+  font-size: .92rem;
+  line-height: 1.45;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .15s ease, transform .15s ease;
+}
+.verse-tip.show { opacity: 1; transform: none; }
+html[data-theme="dark"] .verse-tip { background: #1E2420; color: #F4F1EA; }
+.verse-tip .vt-ref { font-weight: 650; color: var(--accent); font-size: .8rem; letter-spacing: .02em; margin-bottom: .25rem; }
+.verse-tip .vt-text { color: var(--text); }
 footer { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 1.5rem 1.25rem; }
 footer a { color: var(--accent); margin: 0 0.4rem; }
 @media (max-width: 700px) {
