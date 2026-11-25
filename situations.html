@@ -44,10 +44,13 @@
   <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a>
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
+<div id="verse-tip" class="verse-tip"></div>
 <script>
 const SUPABASE_URL = 'https://nvxtvwdvvzhbsvbpnlgz.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_U511agudgV1tcFiEIIGbFg_EPDltBn3';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
+const verseCache = {};
 
 function renderSituations(filter = '', aiIds = null) {
   const list = document.getElementById('situation-list');
@@ -57,12 +60,12 @@ function renderSituations(filter = '', aiIds = null) {
     items = items.filter(i => aiIds.includes(i.id));
   } else if (filter) {
     const f = filter.toLowerCase();
-    items = items.filter(i => (i.title || '').toLowerCase().includes(f) || (i.principles || '').toLowerCase().includes(f));
+    items = items.filter(i => (i.title || '').toLowerCase().includes(f) || (i.principles || '').toLowerCase().includes(f) || (i.behind || '').toLowerCase().includes(f));
   }
   items.forEach(item => {
     const div = document.createElement('div');
     div.className = 'situation-item';
-    div.innerHTML = `<strong>${item.title}</strong><p>${item.principles ? item.principles.slice(0, 140) + '...' : ''}</p>`;
+    div.innerHTML = `<strong>${item.title}</strong><p>${item.behind ? item.behind.slice(0, 120) + '...' : (item.principles ? item.principles.slice(0, 120) + '...' : '')}</p>`;
     div.onclick = () => showSituation(item);
     list.appendChild(div);
   });
@@ -73,9 +76,13 @@ function showSituation(item) {
   const detail = document.getElementById('situation-detail');
   const notesKey = 'sit-notes-' + item.id;
   const saved = localStorage.getItem(notesKey) || '';
+  let behind = '';
+  if (item.behind) {
+    behind = `<div class="note" style="margin-bottom:1rem;"><strong>What's usually behind this</strong><p>${item.behind}</p></div>`;
+  }
   let scriptures = '';
   if (item.scriptures && item.scriptures.length) {
-    scriptures = '<h3>Key Scriptures</h3><ul>' + item.scriptures.map(s => `<li>${s}</li>`).join('') + '</ul>';
+    scriptures = '<h3>Key Scriptures</h3><ul>' + item.scriptures.map(s => `<li><span class="verse-ref" data-ref="${s}">${s}</span></li>`).join('') + '</ul>';
   }
   let responses = '';
   if (item.responses && item.responses.length) {
@@ -87,6 +94,7 @@ function showSituation(item) {
   }
   detail.innerHTML = `
     <h2>${item.title}</h2>
+    ${behind}
     <h3>Biblical Principles</h3>
     <p>${item.principles || ''}</p>
     ${scriptures}
@@ -106,6 +114,7 @@ function showSituation(item) {
   `;
   detail.classList.remove('hidden');
   document.getElementById('situation-list').classList.add('hidden');
+  bindVerseHovers();
 }
 
 function hideDetail() {
@@ -154,6 +163,45 @@ async function doSearch() {
     }
   } catch (e) { console.error(e); }
   renderSituations(q);
+}
+
+function bindVerseHovers() {
+  const tip = document.getElementById('verse-tip');
+  document.querySelectorAll('.verse-ref').forEach(el => {
+    el.addEventListener('mouseenter', async (e) => {
+      const ref = el.dataset.ref;
+      if (!ref) return;
+      tip.innerHTML = '<div class="vt-ref">' + ref + '</div><div class="vt-text">Loading…</div>';
+      tip.classList.add('show');
+      positionTip(e);
+      if (verseCache[ref]) {
+        tip.querySelector('.vt-text').textContent = verseCache[ref];
+        return;
+      }
+      try {
+        const url = 'https://api.esv.org/v3/passage/text/?q=' + encodeURIComponent(ref) + '&include-headings=false&include-footnotes=false&include-verse-numbers=false&include-short-copyright=false&include-passage-references=false';
+        const res = await fetch(url, { headers: { Authorization: 'Token ' + ESV_TOKEN } });
+        const data = await res.json();
+        const text = (data.passages && data.passages[0]) || 'Passage not found.';
+        verseCache[ref] = text;
+        tip.querySelector('.vt-text').textContent = text;
+      } catch (err) {
+        tip.querySelector('.vt-text').textContent = 'Could not load verse.';
+      }
+    });
+    el.addEventListener('mousemove', positionTip);
+    el.addEventListener('mouseleave', () => tip.classList.remove('show'));
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.open('https://www.esv.org/' + encodeURIComponent(el.dataset.ref), '_blank');
+    });
+  });
+}
+
+function positionTip(e) {
+  const tip = document.getElementById('verse-tip');
+  tip.style.left = (e.clientX + 12) + 'px';
+  tip.style.top = (e.clientY + 12) + 'px';
 }
 
 document.getElementById('search').addEventListener('input', e => renderSituations(e.target.value));
