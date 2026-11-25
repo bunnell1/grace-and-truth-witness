@@ -37,6 +37,7 @@
     <input type="text" id="search" class="search-box" placeholder="Describe what they said or the situation…" style="margin:0;flex:1;">
     <button class="btn" onclick="doSearch()">Find</button>
   </div>
+  <div id="search-status" class="note" style="display:none;margin-bottom:1rem;"></div>
   <div id="situation-list"></div>
   <div id="situation-detail" class="hidden card"></div>
 </main>
@@ -51,6 +52,13 @@ const SUPABASE_KEY = 'sb_publishable_U511agudgV1tcFiEIIGbFg_EPDltBn3';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
 const verseCache = {};
+
+function setStatus(msg) {
+  const el = document.getElementById('search-status');
+  if (!msg) { el.style.display = 'none'; return; }
+  el.textContent = msg;
+  el.style.display = 'block';
+}
 
 function renderSituations(filter = '', aiIds = null) {
   const list = document.getElementById('situation-list');
@@ -150,19 +158,30 @@ function clearNotes(key) {
 
 async function doSearch() {
   const q = document.getElementById('search').value.trim();
-  if (!q) { renderSituations(); return; }
+  if (!q) { setStatus(''); renderSituations(); return; }
+  setStatus('Searching…');
   const list = document.getElementById('situation-list');
-  list.innerHTML = '<p class="note">Searching…</p>';
+  list.innerHTML = '';
   try {
-    const catalog = (situations || []).map(s => ({ type: 'situation', id: s.id, title: s.title, summary: s.principles || '' }));
+    const catalog = (situations || []).map(s => ({ type: 'situation', id: s.id, title: s.title, summary: (s.principles || '') + ' ' + (s.behind || '') }));
     const { data, error } = await sb.functions.invoke('find', { body: { q, catalog } });
-    if (!error && data && data.matches && data.matches.length) {
+    if (error) {
+      setStatus('Search error: ' + (error.message || 'unknown') + '. Showing local matches.');
+      renderSituations(q);
+      return;
+    }
+    if (data && data.matches && data.matches.length) {
       const ids = data.matches.map(m => m.id).filter(Boolean);
+      setStatus('Found ' + ids.length + ' match' + (ids.length === 1 ? '' : 'es') + '.');
       renderSituations(q, ids);
       return;
     }
-  } catch (e) { console.error(e); }
-  renderSituations(q);
+    setStatus('No AI matches. Showing local results.');
+    renderSituations(q);
+  } catch (e) {
+    setStatus('Search failed. Showing local results.');
+    renderSituations(q);
+  }
 }
 
 function bindVerseHovers() {
@@ -204,7 +223,10 @@ function positionTip(e) {
   tip.style.top = (e.clientY + 12) + 'px';
 }
 
-document.getElementById('search').addEventListener('input', e => renderSituations(e.target.value));
+document.getElementById('search').addEventListener('input', e => {
+  setStatus('');
+  renderSituations(e.target.value);
+});
 document.getElementById('search').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 renderSituations();
 
