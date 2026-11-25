@@ -39,7 +39,11 @@
   <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a>
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
+<div id="verse-tip" class="verse-tip"></div>
 <script>
+const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
+const verseCache = {};
+
 function renderModules() {
   const list = document.getElementById('module-list');
   list.innerHTML = '';
@@ -58,17 +62,22 @@ function showModule(m) {
   const saved = localStorage.getItem(notesKey) || '';
   let scriptures = '';
   if (m.scriptures && m.scriptures.length) {
-    scriptures = '<h3>Scriptures</h3><ul>' + m.scriptures.map(s => `<li>${s}</li>`).join('') + '</ul>';
+    scriptures = '<h3>Scriptures</h3><ul>' + m.scriptures.map(s => `<li><span class="verse-ref" data-ref="${s}">${s}</span></li>`).join('') + '</ul>';
   }
   let reading = '';
   if (m.furtherReading && m.furtherReading.length) {
     reading = '<h3>For Further Reading</h3><ul>' + m.furtherReading.map(b => `<li><a href="${b.url}" target="_blank" rel="noopener">${b.title}</a></li>`).join('') + '</ul>';
+  }
+  let homework = '';
+  if (m.homework) {
+    homework = '<h3>Homework to Grow</h3><ul>' + m.homework.map(h => `<li>${h}</li>`).join('') + '</ul>';
   }
   detail.innerHTML = `
     <h2>${m.title}</h2>
     <p>${m.summary || ''}</p>
     <p>${m.content || ''}</p>
     ${scriptures}
+    ${homework}
     ${reading}
     <h3>Your Notes</h3>
     <textarea class="notes-area" id="mod-notes" placeholder="Notes stay on this device">${saved}</textarea>
@@ -80,6 +89,7 @@ function showModule(m) {
   `;
   detail.classList.remove('hidden');
   document.getElementById('module-list').classList.add('hidden');
+  bindVerseHovers();
 }
 
 function hideDetail() {
@@ -94,6 +104,45 @@ function saveNotes(key) {
 function clearNotes(key) {
   document.getElementById('mod-notes').value = '';
   localStorage.removeItem(key);
+}
+
+function bindVerseHovers() {
+  const tip = document.getElementById('verse-tip');
+  document.querySelectorAll('.verse-ref').forEach(el => {
+    el.addEventListener('mouseenter', async (e) => {
+      const ref = el.dataset.ref;
+      if (!ref) return;
+      tip.innerHTML = '<div class="vt-ref">' + ref + '</div><div class="vt-text">Loading…</div>';
+      tip.classList.add('show');
+      positionTip(e);
+      if (verseCache[ref]) {
+        tip.querySelector('.vt-text').textContent = verseCache[ref];
+        return;
+      }
+      try {
+        const url = 'https://api.esv.org/v3/passage/text/?q=' + encodeURIComponent(ref) + '&include-headings=false&include-footnotes=false&include-verse-numbers=false&include-short-copyright=false&include-passage-references=false';
+        const res = await fetch(url, { headers: { Authorization: 'Token ' + ESV_TOKEN } });
+        const data = await res.json();
+        const text = (data.passages && data.passages[0]) || 'Passage not found.';
+        verseCache[ref] = text;
+        tip.querySelector('.vt-text').textContent = text;
+      } catch (err) {
+        tip.querySelector('.vt-text').textContent = 'Could not load verse.';
+      }
+    });
+    el.addEventListener('mousemove', positionTip);
+    el.addEventListener('mouseleave', () => tip.classList.remove('show'));
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.open('https://www.esv.org/' + encodeURIComponent(el.dataset.ref), '_blank');
+    });
+  });
+}
+
+function positionTip(e) {
+  const tip = document.getElementById('verse-tip');
+  tip.style.left = (e.clientX + 12) + 'px';
+  tip.style.top = (e.clientY + 12) + 'px';
 }
 
 renderModules();
