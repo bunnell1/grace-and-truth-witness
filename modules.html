@@ -154,6 +154,12 @@ function positionTip(e) {
 }
 
 renderModules();
+const params = new URLSearchParams(location.search);
+const openId = params.get('id');
+if (openId) {
+  const item = (modules || []).find(m => m.id === openId);
+  if (item) showModule(item);
+}
 
 (function () {
   function icon() {
