@@ -73,6 +73,7 @@ function showTool(t) {
     <div class="icon-row">
       <button class="icon-btn" title="Back" onclick="hideDetail()">←</button>
       <button class="icon-btn" title="Save" onclick="saveTool('${notesKey}', '${t.id}')">✓</button>
+      <button class="icon-btn" title="Print / Save as PDF" onclick="window.print()">⎙</button>
       <button class="icon-btn" title="Clear" onclick="if(confirm('Clear?')) clearTool('${notesKey}')">✕</button>
     </div>
   `;
