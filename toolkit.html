@@ -33,19 +33,78 @@
   <h1>Witness Toolkit</h1>
   <p class="note">Fillable tools for preparation and follow-up. Notes stay on this device.</p>
   <div id="toolkit-list"></div>
+  <div id="toolkit-detail" class="hidden card"></div>
 </main>
 <footer>
   <a href="https://graceandtruthministry.com">Grace & Truth Ministry</a>
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
 <script>
-const list = document.getElementById('toolkit-list');
-(toolkitItems || []).forEach(t => {
-  const div = document.createElement('div');
-  div.className = 'situation-item';
-  div.innerHTML = `<strong>${t.title}</strong><p>${t.summary || ''}</p>`;
-  list.appendChild(div);
-});
+function renderToolkit() {
+  const list = document.getElementById('toolkit-list');
+  list.innerHTML = '';
+  (toolkitItems || []).forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'situation-item';
+    div.innerHTML = `<strong>${t.title}</strong><p>${t.summary || ''}</p>`;
+    div.onclick = () => showTool(t);
+    list.appendChild(div);
+  });
+}
+
+function showTool(t) {
+  const detail = document.getElementById('toolkit-detail');
+  const notesKey = 'tool-notes-' + t.id;
+  const saved = JSON.parse(localStorage.getItem(notesKey) || '{}');
+  let form = '';
+  if (t.form && t.form.length) {
+    form = t.form.map(f => {
+      const val = saved[f.id] || '';
+      if (f.type === 'textarea') {
+        return `<label>${f.label}</label><textarea class="notes-area" id="f-${f.id}">${val}</textarea>`;
+      }
+      return `<label>${f.label}</label><input type="text" class="search-box" id="f-${f.id}" value="${val}">`;
+    }).join('');
+  }
+  detail.innerHTML = `
+    <h2>${t.title}</h2>
+    <p>${t.summary || ''}</p>
+    ${form}
+    <div class="icon-row">
+      <button class="icon-btn" title="Back" onclick="hideDetail()">←</button>
+      <button class="icon-btn" title="Save" onclick="saveTool('${notesKey}', '${t.id}')">✓</button>
+      <button class="icon-btn" title="Clear" onclick="if(confirm('Clear?')) clearTool('${notesKey}')">✕</button>
+    </div>
+  `;
+  detail.classList.remove('hidden');
+  document.getElementById('toolkit-list').classList.add('hidden');
+}
+
+function hideDetail() {
+  document.getElementById('toolkit-detail').classList.add('hidden');
+  document.getElementById('toolkit-list').classList.remove('hidden');
+}
+
+function saveTool(key, id) {
+  const tool = (toolkitItems || []).find(t => t.id === id);
+  const data = {};
+  if (tool && tool.form) {
+    tool.form.forEach(f => {
+      const el = document.getElementById('f-' + f.id);
+      if (el) data[f.id] = el.value;
+    });
+  }
+  localStorage.setItem(key, JSON.stringify(data));
+  alert('Saved');
+}
+function clearTool(key) {
+  localStorage.removeItem(key);
+  hideDetail();
+  renderToolkit();
+}
+
+renderToolkit();
+
 (function () {
   function icon() {
     var el = document.getElementById('theme-icon');
