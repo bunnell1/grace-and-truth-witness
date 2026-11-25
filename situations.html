@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="data.js"></script>
 </head>
 <body>
 <header>
@@ -43,31 +44,62 @@
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
 <script>
-const SUPABASE_URL = 'https://vsrasasxkbxiitbvonjw.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_4-d9tlhIQu1OqeI5bGTHTQ_OSLgPFoC';
+const SUPABASE_URL = 'https://nvxtvwdvvzhbsvbpnlgz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_U511agudgV1tcFiEIIGbFg_EPDltBn3';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Placeholder situations - full data will be loaded from app.js
-const situations = [];
 
 function renderSituations(filter = '', aiIds = null) {
   const list = document.getElementById('situation-list');
-  list.innerHTML = '<p class="note">Situations data is being restored. Search will connect to the Edge Function.</p>';
+  list.innerHTML = '';
+  let items = (typeof situations !== 'undefined' ? situations : []);
+  if (aiIds && aiIds.length) {
+    items = items.filter(i => aiIds.includes(i.id));
+  } else if (filter) {
+    const f = filter.toLowerCase();
+    items = items.filter(i => (i.title || '').toLowerCase().includes(f) || (i.principles || '').toLowerCase().includes(f));
+  }
+  items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'situation-item';
+    div.innerHTML = `<strong>${item.title}</strong><p>${item.principles ? item.principles.slice(0, 120) + '...' : ''}</p>`;
+    div.onclick = () => showSituation(item);
+    list.appendChild(div);
+  });
+  if (!items.length) list.innerHTML = '<p class="note">No matching situations.</p>';
+}
+
+function showSituation(item) {
+  const detail = document.getElementById('situation-detail');
+  detail.innerHTML = `<h2>${item.title}</h2><p>${item.principles || ''}</p><button class="btn" onclick="hideDetail()">Back</button>`;
+  detail.classList.remove('hidden');
+  document.getElementById('situation-list').classList.add('hidden');
+}
+
+function hideDetail() {
+  document.getElementById('situation-detail').classList.add('hidden');
+  document.getElementById('situation-list').classList.remove('hidden');
 }
 
 async function doSearch() {
   const q = document.getElementById('search').value.trim();
-  if (!q) return;
+  if (!q) { renderSituations(); return; }
   const list = document.getElementById('situation-list');
   list.innerHTML = '<p class="note">Searching…</p>';
   try {
-    const { data, error } = await sb.functions.invoke('find', { body: { q, catalog: [] } });
-    if (error) throw error;
-    list.innerHTML = '<p class="note">Search connected. Results: ' + JSON.stringify(data) + '</p>';
-  } catch (e) {
-    list.innerHTML = '<p class="note">Search error: ' + e.message + '</p>';
-  }
+    const catalog = (situations || []).map(s => ({ type: 'situation', id: s.id, title: s.title, summary: s.principles || '' }));
+    const { data, error } = await sb.functions.invoke('find', { body: { q, catalog } });
+    if (!error && data && data.matches && data.matches.length) {
+      const ids = data.matches.map(m => m.id).filter(Boolean);
+      renderSituations(q, ids);
+      return;
+    }
+  } catch (e) { console.error(e); }
+  renderSituations(q);
 }
+
+document.getElementById('search').addEventListener('input', e => renderSituations(e.target.value));
+document.getElementById('search').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+renderSituations();
 </script>
 </body>
 </html>
