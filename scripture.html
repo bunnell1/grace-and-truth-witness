@@ -45,17 +45,22 @@
   <p>© 2026 Grace & Truth Witness</p>
 </footer>
 <script>
-const ESV_TOKEN = 'ac58562b92f736c651dad88a83c98661ac1887ea';
 async function lookupVerse() {
   const q = document.getElementById('verse-search').value.trim();
   if (!q) return;
   const el = document.getElementById('verse-result');
   el.innerHTML = 'Looking up…';
   try {
-    const url = 'https://api.esv.org/v3/passage/text/?q=' + encodeURIComponent(q) + '&include-headings=false&include-footnotes=false&include-verse-numbers=false&include-short-copyright=false&include-passage-references=false';
-    const res = await fetch(url, { headers: { Authorization: 'Token ' + ESV_TOKEN } });
-    const data = await res.json();
-    el.innerHTML = (data.passages && data.passages[0]) || 'Not found.';
+    const { data, error } = await sb.functions.invoke('passage', { body: { q } });
+    if (error) {
+      el.innerHTML = 'Could not look up: ' + (error.message || 'error');
+      return;
+    }
+    if (data && data.passages && data.passages.length) {
+      el.innerHTML = data.passages.map(p => `<div style="margin-bottom:1rem;"><strong>${p.ref}</strong><p>${p.text || ''}</p></div>`).join('');
+      return;
+    }
+    el.innerHTML = 'Not found.';
   } catch (e) {
     el.innerHTML = 'Could not load.';
   }
