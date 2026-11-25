@@ -77,7 +77,13 @@ function renderSituations(filter = '', aiIds = null) {
     div.onclick = () => showSituation(item);
     list.appendChild(div);
   });
-  if (!items.length) list.innerHTML = '<p class="note">No matching situations.</p>';
+  if (!items.length) {
+    if (filter && !aiIds) {
+      list.innerHTML = '<p class="note">No local matches. Click <strong>Find</strong> for a broader search.</p>';
+    } else {
+      list.innerHTML = '<p class="note">No matching situations.</p>';
+    }
+  }
 }
 
 function showSituation(item) {
