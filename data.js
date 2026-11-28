@@ -2,6 +2,7 @@ const situations = [
   {
     id: "good-person",
     title: "I'm a good person",
+    video: "https://www.youtube.com/embed/0BcR1vzlEWU",
     behind: "Often a desire to be affirmed or a misunderstanding of how God measures righteousness. Many have never been confronted with God's holy standard.",
     principles: "People naturally measure themselves by other people or by their own intentions. Scripture measures us by God's holy standard. No one is righteous by works (Romans 3:10-12, 23). The gospel is that Christ lived the perfect life we could not live and died the death we deserved.",
     scriptures: ["Romans 3:10-12", "Romans 3:23", "Isaiah 64:6", "Ephesians 2:8-9"],
